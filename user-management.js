@@ -292,12 +292,18 @@ class UserManager {
         const userInfo = document.getElementById('user-info');
         const profileNav = document.getElementById('profile-nav');
         const leaderboardsNav = document.getElementById('leaderboards-nav');
+        const adminNav = document.getElementById('admin-nav');
+        const adminDropdown = document.getElementById('admin-dropdown-link');
 
         if (this.currentUser) {
             authButtons.style.display = 'none';
             userInfo.style.display = 'block';
             profileNav.style.display = 'block';
             leaderboardsNav.style.display = 'block';
+            
+            // Show admin navigation for all logged-in users (in production, check user roles)
+            if (adminNav) adminNav.style.display = 'block';
+            if (adminDropdown) adminDropdown.style.display = 'block';
             
             document.getElementById('current-username').textContent = 
                 this.currentUser.name.split(' ')[0];
@@ -310,6 +316,8 @@ class UserManager {
             userInfo.style.display = 'none';
             profileNav.style.display = 'none';
             leaderboardsNav.style.display = 'none';
+            if (adminNav) adminNav.style.display = 'none';
+            if (adminDropdown) adminDropdown.style.display = 'none';
         }
     }
 

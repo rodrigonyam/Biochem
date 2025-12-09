@@ -21,6 +21,7 @@
                 <a href="#progress" class="nav-link">Progress</a>
                 <a href="#leaderboards" class="nav-link" id="leaderboards-nav" style="display: none;">Leaderboards</a>
                 <a href="#profile" class="nav-link" id="profile-nav" style="display: none;">Profile</a>
+                <a href="#admin" class="nav-link" id="admin-nav" style="display: none;">Admin Panel</a>
             </nav>
             <div class="user-menu">
                 <div class="auth-buttons" id="auth-buttons">
@@ -37,6 +38,7 @@
                         <a href="#profile" onclick="showProfile(); closeUserDropdown();"><i class="fas fa-user"></i> Profile</a>
                         <a href="#progress" onclick="showProgress(); closeUserDropdown();"><i class="fas fa-chart-line"></i> Progress</a>
                         <a href="#leaderboards" onclick="showLeaderboards(); closeUserDropdown();"><i class="fas fa-trophy"></i> Leaderboards</a>
+                        <a href="#admin" onclick="showAdmin(); closeUserDropdown();" id="admin-dropdown-link" style="display: none;"><i class="fas fa-tools"></i> Admin Panel</a>
                         <a href="#" onclick="showAccountSettings(); closeUserDropdown();"><i class="fas fa-cog"></i> Settings</a>
                         <a href="#" onclick="logout(); closeUserDropdown();"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
@@ -284,6 +286,108 @@
                         <button class="action-button secondary" onclick="showHome()">
                             <i class="fas fa-home"></i> Home
                         </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel Section -->
+        <section id="admin" class="section admin-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Admin Panel</h2>
+                    <p>Manage quiz questions and categories</p>
+                </div>
+                
+                <div class="admin-tabs">
+                    <button class="admin-tab active" onclick="showAdminTab('questions')">Manage Questions</button>
+                    <button class="admin-tab" onclick="showAdminTab('categories')">Categories Overview</button>
+                    <button class="admin-tab" onclick="showAdminTab('bulk')">Bulk Operations</button>
+                </div>
+                
+                <!-- Question Management Tab -->
+                <div class="admin-content active" id="questions-admin">
+                    <div class="admin-toolbar">
+                        <div class="toolbar-left">
+                            <select id="admin-category-filter" onchange="filterQuestionsByCategory()">
+                                <option value="all">All Categories</option>
+                                <option value="anatomy">Anatomy & Physiology</option>
+                                <option value="biochemistry">Biochemistry</option>
+                                <option value="cell-biology">Cell Biology</option>
+                                <option value="genetics">Genetics</option>
+                                <option value="microbiology">Microbiology</option>
+                                <option value="pharmacology">Pharmacology</option>
+                                <option value="immunology">Immunology</option>
+                                <option value="biomaterials">Biomaterials</option>
+                                <option value="tissue-engineering">Tissue Engineering</option>
+                                <option value="biomechanics">Biomechanics</option>
+                                <option value="bioinformatics">Bioinformatics</option>
+                            </select>
+                            <select id="admin-type-filter" onchange="filterQuestionsByType()">
+                                <option value="all">All Types</option>
+                                <option value="multiple-choice">Multiple Choice</option>
+                                <option value="true-false">True/False</option>
+                                <option value="short-answer">Short Answer</option>
+                                <option value="multiple-select">Multiple Select</option>
+                            </select>
+                        </div>
+                        <div class="toolbar-right">
+                            <button class="admin-btn primary" onclick="showAddQuestionModal()">
+                                <i class="fas fa-plus"></i> Add New Question
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="questions-grid" id="admin-questions-grid">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Categories Overview Tab -->
+                <div class="admin-content" id="categories-admin">
+                    <div class="categories-stats">
+                        <h3>Category Statistics</h3>
+                        <div class="stats-grid" id="category-stats-grid">
+                            <!-- Category stats will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bulk Operations Tab -->
+                <div class="admin-content" id="bulk-admin">
+                    <div class="bulk-operations">
+                        <h3>Bulk Operations</h3>
+                        <div class="bulk-actions">
+                            <div class="bulk-section">
+                                <h4>Import Questions</h4>
+                                <p>Import questions from JSON format</p>
+                                <textarea id="import-json" placeholder="Paste JSON data here..." rows="8"></textarea>
+                                <button class="admin-btn secondary" onclick="importQuestions()">
+                                    <i class="fas fa-upload"></i> Import Questions
+                                </button>
+                            </div>
+                            <div class="bulk-section">
+                                <h4>Export Questions</h4>
+                                <p>Export questions for backup or sharing</p>
+                                <select id="export-category">
+                                    <option value="all">All Categories</option>
+                                    <option value="anatomy">Anatomy & Physiology</option>
+                                    <option value="biochemistry">Biochemistry</option>
+                                    <option value="cell-biology">Cell Biology</option>
+                                    <option value="genetics">Genetics</option>
+                                    <option value="microbiology">Microbiology</option>
+                                    <option value="pharmacology">Pharmacology</option>
+                                    <option value="immunology">Immunology</option>
+                                    <option value="biomaterials">Biomaterials</option>
+                                    <option value="tissue-engineering">Tissue Engineering</option>
+                                    <option value="biomechanics">Biomechanics</option>
+                                    <option value="bioinformatics">Bioinformatics</option>
+                                </select>
+                                <button class="admin-btn secondary" onclick="exportQuestions()">
+                                    <i class="fas fa-download"></i> Export Questions
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -745,5 +849,6 @@
 
     <script src="script.js"></script>
     <script src="user-management.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
