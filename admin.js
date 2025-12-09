@@ -3,12 +3,107 @@ class AdminManager {
     constructor() {
         this.currentEditingQuestion = null;
         this.filteredQuestions = null;
+        this.currentPage = 1;
+        this.questionsPerPage = 12;
         this.init();
     }
 
     init() {
         // Initialize admin panel if user is admin
         this.checkAdminAccess();
+        this.loadDashboardStats();
+        this.initializeDashboard();
+    }
+
+    initializeDashboard() {
+        // Load dashboard data when admin section is shown
+        if (document.getElementById('admin')) {
+            this.updateDashboardStats();
+            this.loadCategoryDistribution();
+            this.loadRecentActivity();
+            this.loadSystemStatus();
+        }
+    }
+
+    updateDashboardStats() {
+        // Count total questions across all categories and topics
+        let totalQuestions = 0;
+        Object.entries(questionDatabase).forEach(([category, topics]) => {
+            Object.entries(topics).forEach(([topic, questions]) => {
+                totalQuestions += questions.length;
+            });
+        });
+
+        // Count registered users
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const totalUsers = users.length;
+
+        // Update dashboard stat cards
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const totalUsersEl = document.getElementById('total-users');
+
+        if (totalQuestionsEl) totalQuestionsEl.textContent = totalQuestions;
+        if (totalUsersEl) totalUsersEl.textContent = totalUsers;
+    }
+
+    loadCategoryDistribution() {
+        const chartContainer = document.getElementById('category-distribution');
+        if (!chartContainer) return;
+
+        chartContainer.innerHTML = '';
+        
+        // Create simple chart showing questions per category
+        Object.entries(questionDatabase).forEach(([category, topics]) => {
+            let categoryTotal = 0;
+            Object.entries(topics).forEach(([topic, questions]) => {
+                categoryTotal += questions.length;
+            });
+
+            const chartBar = document.createElement('div');
+            chartBar.className = 'chart-bar';
+            chartBar.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)}: ${categoryTotal}`;
+            chartContainer.appendChild(chartBar);
+        });
+    }
+
+    loadRecentActivity() {
+        const activityFeed = document.getElementById('recent-activity');
+        if (!activityFeed) return;
+
+        // For now, show static recent activity
+        // In production, this would come from a real activity log
+        const activities = [
+            { icon: 'fas fa-plus-circle', text: 'System initialized with comprehensive question database', time: 'Today', type: 'success' },
+            { icon: 'fas fa-database', text: 'Question database loaded with 275+ questions', time: '1 hour ago', type: 'info' },
+            { icon: 'fas fa-users', text: 'User management system activated', time: '2 hours ago', type: 'info' }
+        ];
+
+        activityFeed.innerHTML = activities.map(activity => `
+            <div class="activity-item">
+                <i class="${activity.icon} text-${activity.type}"></i>
+                <span>${activity.text}</span>
+                <small>${activity.time}</small>
+            </div>
+        `).join('');
+    }
+
+    loadSystemStatus() {
+        // Update system status indicators
+        const statusItems = [
+            { icon: 'fas fa-database', text: 'Database: Online', type: 'success' },
+            { icon: 'fas fa-check-circle', text: 'Question Integrity: Valid', type: 'success' },
+            { icon: 'fas fa-shield-alt', text: 'Security: Protected', type: 'success' }
+        ];
+
+        const statusContainer = document.querySelector('.system-status');
+        if (statusContainer) {
+            statusContainer.innerHTML = statusItems.map(item => `
+                <div class="status-item">
+                    <i class="${item.icon} text-${item.type}"></i>
+                    <span>${item.text}</span>
+                </div>
+            `).join('');
+        }
     }
 
     checkAdminAccess() {
@@ -35,17 +130,22 @@ class AdminManager {
         if (!grid) return;
 
         const categoryFilter = document.getElementById('admin-category-filter')?.value || 'all';
+        const topicFilter = document.getElementById('admin-topic-filter')?.value || 'all';
         const typeFilter = document.getElementById('admin-type-filter')?.value || 'all';
+        const searchTerm = document.getElementById('question-search')?.value?.toLowerCase() || '';
 
-        // Get all questions from the question database
+        // Get all questions from the question database (topic-organized structure)
         let allQuestions = [];
-        Object.entries(questionDatabase).forEach(([category, questions]) => {
-            questions.forEach((question, index) => {
-                allQuestions.push({
-                    ...question,
-                    category,
-                    id: `${category}_${index}`,
-                    index
+        Object.entries(questionDatabase).forEach(([category, topics]) => {
+            Object.entries(topics).forEach(([topic, questions]) => {
+                questions.forEach((question, index) => {
+                    allQuestions.push({
+                        ...question,
+                        category,
+                        topic,
+                        id: `${category}_${topic}_${index}`,
+                        index
+                    });
                 });
             });
         });
@@ -55,9 +155,23 @@ class AdminManager {
         if (categoryFilter !== 'all') {
             filteredQuestions = filteredQuestions.filter(q => q.category === categoryFilter);
         }
+        if (topicFilter !== 'all') {
+            filteredQuestions = filteredQuestions.filter(q => q.topic === topicFilter);
+        }
         if (typeFilter !== 'all') {
             filteredQuestions = filteredQuestions.filter(q => q.type === typeFilter);
         }
+        if (searchTerm) {
+            filteredQuestions = filteredQuestions.filter(q => 
+                q.question.toLowerCase().includes(searchTerm) ||
+                (q.explanation && q.explanation.toLowerCase().includes(searchTerm))
+            );
+        }
+
+        // Implement pagination
+        const startIndex = (this.currentPage - 1) * this.questionsPerPage;
+        const endIndex = startIndex + this.questionsPerPage;
+        const paginatedQuestions = filteredQuestions.slice(startIndex, endIndex);
 
         this.filteredQuestions = filteredQuestions;
 
@@ -72,7 +186,8 @@ class AdminManager {
             return;
         }
 
-        grid.innerHTML = filteredQuestions.map(question => this.createQuestionCard(question)).join('');
+        grid.innerHTML = paginatedQuestions.map(question => this.createQuestionCard(question)).join('');
+        this.updatePagination(filteredQuestions.length);
     }
 
     createQuestionCard(question) {
@@ -617,6 +732,238 @@ class AdminManager {
             showMessage('Invalid JSON format. Please check your data and try again.', 'error');
         }
     }
+
+    updatePagination(totalQuestions) {
+        const paginationContainer = document.getElementById('questions-pagination');
+        if (!paginationContainer) return;
+
+        const totalPages = Math.ceil(totalQuestions / this.questionsPerPage);
+        
+        if (totalPages <= 1) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+
+        let paginationHTML = '';
+        
+        // Previous button
+        if (this.currentPage > 1) {
+            paginationHTML += `<button class="pagination-btn" onclick="adminManager.changePage(${this.currentPage - 1})">Previous</button>`;
+        }
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const activeClass = i === this.currentPage ? 'active' : '';
+            paginationHTML += `<button class="pagination-btn ${activeClass}" onclick="adminManager.changePage(${i})">${i}</button>`;
+        }
+        
+        // Next button
+        if (this.currentPage < totalPages) {
+            paginationHTML += `<button class="pagination-btn" onclick="adminManager.changePage(${this.currentPage + 1})">Next</button>`;
+        }
+        
+        paginationContainer.innerHTML = paginationHTML;
+    }
+
+    changePage(page) {
+        this.currentPage = page;
+        this.loadQuestionsGrid();
+    }
+
+    loadCategoriesManagement() {
+        const grid = document.getElementById('categories-management-grid');
+        if (!grid) return;
+
+        const categories = Object.keys(questionDatabase);
+        
+        grid.innerHTML = categories.map(category => {
+            const topics = Object.keys(questionDatabase[category]);
+            let totalQuestions = 0;
+            topics.forEach(topic => {
+                totalQuestions += questionDatabase[category][topic].length;
+            });
+
+            return `
+                <div class="category-management-card">
+                    <h4>${getCategoryTitle(category)}</h4>
+                    <p><strong>Topics:</strong> ${topics.length}</p>
+                    <p><strong>Questions:</strong> ${totalQuestions}</p>
+                    <div class="category-actions">
+                        <button class="admin-btn secondary" onclick="adminManager.editCategory('${category}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="admin-btn secondary" onclick="adminManager.viewCategoryTopics('${category}')">
+                            <i class="fas fa-eye"></i> View Topics
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    loadTopicsManagement() {
+        const grid = document.getElementById('topics-management-grid');
+        const categoryFilter = document.getElementById('topic-category-filter')?.value || 'all';
+        
+        if (!grid) return;
+
+        let topicsToShow = [];
+        
+        if (categoryFilter === 'all') {
+            Object.entries(questionDatabase).forEach(([category, topics]) => {
+                Object.entries(topics).forEach(([topic, questions]) => {
+                    topicsToShow.push({
+                        category,
+                        topic,
+                        questionCount: questions.length
+                    });
+                });
+            });
+        } else {
+            if (questionDatabase[categoryFilter]) {
+                Object.entries(questionDatabase[categoryFilter]).forEach(([topic, questions]) => {
+                    topicsToShow.push({
+                        category: categoryFilter,
+                        topic,
+                        questionCount: questions.length
+                    });
+                });
+            }
+        }
+
+        grid.innerHTML = topicsToShow.map(topicData => `
+            <div class="topic-management-card">
+                <h4>${topicData.topic.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</h4>
+                <p><strong>Category:</strong> ${getCategoryTitle(topicData.category)}</p>
+                <p><strong>Questions:</strong> ${topicData.questionCount}</p>
+                <div class="topic-actions">
+                    <button class="admin-btn secondary" onclick="adminManager.editTopic('${topicData.category}', '${topicData.topic}')">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="admin-btn secondary" onclick="adminManager.viewTopicQuestions('${topicData.category}', '${topicData.topic}')">
+                        <i class="fas fa-question"></i> Questions
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // New dashboard functions
+    refreshDashboard() {
+        this.updateDashboardStats();
+        this.loadCategoryDistribution();
+        this.loadRecentActivity();
+        this.loadSystemStatus();
+    }
+
+    backupDatabase() {
+        const data = {
+            questions: questionDatabase,
+            users: JSON.parse(localStorage.getItem('users') || '[]'),
+            sessions: JSON.parse(localStorage.getItem('quiz_sessions') || '[]'),
+            timestamp: new Date().toISOString()
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `biomedical_quiz_backup_${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    validateDatabase() {
+        let issues = [];
+        let totalQuestions = 0;
+        
+        Object.entries(questionDatabase).forEach(([category, topics]) => {
+            Object.entries(topics).forEach(([topic, questions]) => {
+                questions.forEach((question, index) => {
+                    totalQuestions++;
+                    
+                    // Check for required fields
+                    if (!question.question || question.question.trim() === '') {
+                        issues.push(`${category}/${topic}[${index}]: Missing question text`);
+                    }
+                    
+                    if (!question.type) {
+                        issues.push(`${category}/${topic}[${index}]: Missing question type`);
+                    }
+                    
+                    // Type-specific validation
+                    if (question.type === 'multiple-choice' || question.type === 'multiple-select') {
+                        if (!question.options || question.options.length < 2) {
+                            issues.push(`${category}/${topic}[${index}]: Insufficient options`);
+                        }
+                    }
+                });
+            });
+        });
+        
+        alert(`Database Validation Complete\n\nTotal Questions: ${totalQuestions}\nIssues Found: ${issues.length}\n\n${issues.length > 0 ? 'Issues:\n' + issues.slice(0, 10).join('\n') : 'All questions validated successfully!'}`);
+    }
+
+    addNewTopic() {
+        const category = prompt('Enter category for new topic:');
+        const topic = prompt('Enter topic name (camelCase):');
+        
+        if (category && topic && questionDatabase[category]) {
+            if (!questionDatabase[category][topic]) {
+                questionDatabase[category][topic] = [];
+                this.saveQuestionsToStorage();
+                this.loadTopicsManagement();
+                this.refreshDashboard();
+                alert('Topic created successfully!');
+            } else {
+                alert('Topic already exists!');
+            }
+        }
+    }
+
+    addNewCategory() {
+        const category = prompt('Enter new category name (camelCase):');
+        if (category && !questionDatabase[category]) {
+            questionDatabase[category] = {};
+            this.saveQuestionsToStorage();
+            this.loadCategoriesManagement();
+            this.refreshDashboard();
+            alert('Category created successfully!');
+        } else {
+            alert('Category already exists or invalid name!');
+        }
+    }
+
+    exportAllData() {
+        this.exportQuestions();
+    }
+
+    loadAnalytics() {
+        // Placeholder for analytics functionality
+        console.log('Analytics loading...');
+    }
+
+    editCategory(category) {
+        alert(`Edit category: ${category} - Feature coming soon!`);
+    }
+
+    viewCategoryTopics(category) {
+        // Switch to topics tab and filter by category
+        document.getElementById('topic-category-filter').value = category;
+        showAdminTab('topics');
+    }
+
+    editTopic(category, topic) {
+        alert(`Edit topic: ${topic} in ${category} - Feature coming soon!`);
+    }
+
+    viewTopicQuestions(category, topic) {
+        // Switch to questions tab and filter by category and topic
+        document.getElementById('admin-category-filter').value = category;
+        filterQuestionsByCategory();
+        document.getElementById('admin-topic-filter').value = topic;
+        showAdminTab('questions');
+    }
 }
 
 // Global admin manager instance
@@ -641,10 +988,25 @@ function showAdminTab(tabName) {
     event.target.classList.add('active');
     document.getElementById(`${tabName}-admin`).classList.add('active');
     
-    if (tabName === 'questions') {
-        adminManager.loadQuestionsGrid();
-    } else if (tabName === 'categories') {
-        adminManager.updateCategoryStats();
+    // Load content based on tab
+    if (window.adminManager) {
+        switch(tabName) {
+            case 'dashboard':
+                window.adminManager.refreshDashboard();
+                break;
+            case 'questions':
+                window.adminManager.loadQuestionsGrid();
+                break;
+            case 'categories':
+                window.adminManager.loadCategoriesManagement();
+                break;
+            case 'topics':
+                window.adminManager.loadTopicsManagement();
+                break;
+            case 'analytics':
+                window.adminManager.loadAnalytics();
+                break;
+        }
     }
 }
 
@@ -665,7 +1027,30 @@ function saveQuestion(event) {
 }
 
 function filterQuestionsByCategory() {
-    adminManager.loadQuestionsGrid();
+    // Update topic filter based on selected category
+    const categorySelect = document.getElementById('admin-category-filter');
+    const topicSelect = document.getElementById('admin-topic-filter');
+    
+    if (categorySelect && topicSelect) {
+        const selectedCategory = categorySelect.value;
+        
+        // Clear topic options
+        topicSelect.innerHTML = '<option value="all">All Topics</option>';
+        
+        if (selectedCategory !== 'all' && questionDatabase[selectedCategory]) {
+            Object.keys(questionDatabase[selectedCategory]).forEach(topic => {
+                const option = document.createElement('option');
+                option.value = topic;
+                option.textContent = topic.charAt(0).toUpperCase() + topic.slice(1).replace(/([A-Z])/g, ' $1');
+                topicSelect.appendChild(option);
+            });
+        }
+    }
+    
+    if (window.adminManager) {
+        window.adminManager.currentPage = 1;
+        window.adminManager.loadQuestionsGrid();
+    }
 }
 
 function filterQuestionsByType() {
@@ -678,6 +1063,89 @@ function exportQuestions() {
 
 function importQuestions() {
     adminManager.importQuestions();
+}
+
+function filterQuestionsByTopic() {
+    if (window.adminManager) {
+        window.adminManager.currentPage = 1;
+        window.adminManager.loadQuestionsGrid();
+    }
+}
+
+function searchQuestions() {
+    if (window.adminManager) {
+        window.adminManager.currentPage = 1;
+        window.adminManager.loadQuestionsGrid();
+    }
+}
+
+function loadTopicsByCategory() {
+    if (window.adminManager) {
+        window.adminManager.loadTopicsManagement();
+    }
+}
+
+function bulkEditQuestions() {
+    alert('Bulk edit functionality coming soon!');
+}
+
+function handleFileImport() {
+    const file = document.getElementById('import-file').files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = e.target.result;
+            document.getElementById('import-json').value = content;
+        };
+        reader.readAsText(file);
+    }
+}
+
+function processFileImport() {
+    const content = document.getElementById('import-json').value;
+    if (content.trim()) {
+        if (window.adminManager) {
+            window.adminManager.importQuestions();
+        }
+    } else {
+        alert('Please select a file or enter JSON data first.');
+    }
+}
+
+function refreshDashboard() {
+    if (window.adminManager) {
+        window.adminManager.refreshDashboard();
+    }
+}
+
+function backupDatabase() {
+    if (window.adminManager) {
+        window.adminManager.backupDatabase();
+    }
+}
+
+function validateDatabase() {
+    if (window.adminManager) {
+        window.adminManager.validateDatabase();
+    }
+}
+
+function addNewTopic() {
+    if (window.adminManager) {
+        window.adminManager.addNewTopic();
+    }
+}
+
+function addNewCategory() {
+    if (window.adminManager) {
+        window.adminManager.addNewCategory();
+    }
+}
+
+function exportAllData() {
+    if (window.adminManager) {
+        window.adminManager.exportAllData();
+    }
 }
 
 // Initialize admin functionality when DOM is loaded

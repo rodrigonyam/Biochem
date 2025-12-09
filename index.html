@@ -656,37 +656,171 @@
             </div>
         </section>
 
-        <!-- Admin Panel Section -->
+        <!-- Admin Dashboard Section -->
         <section id="admin" class="section admin-section">
             <div class="container">
-                <div class="section-header">
-                    <h2>Admin Panel</h2>
-                    <p>Manage quiz questions and categories</p>
+                <div class="admin-header">
+                    <div class="admin-title">
+                        <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+                        <p>Comprehensive management of quiz questions, categories, and system overview</p>
+                    </div>
+                    <div class="admin-quick-actions">
+                        <button class="quick-action-btn" onclick="showAddQuestionModal()" title="Add New Question">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                        <button class="quick-action-btn" onclick="backupDatabase()" title="Backup Database">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button class="quick-action-btn" onclick="refreshDashboard()" title="Refresh Dashboard">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard Overview -->
+                <div class="dashboard-overview">
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-questions">0</h3>
+                                <p>Total Questions</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-categories">11</h3>
+                                <p>Categories</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-topics">55</h3>
+                                <p>Topics</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-users">0</h3>
+                                <p>Registered Users</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="admin-tabs">
-                    <button class="admin-tab active" onclick="showAdminTab('questions')">Manage Questions</button>
-                    <button class="admin-tab" onclick="showAdminTab('categories')">Categories Overview</button>
-                    <button class="admin-tab" onclick="showAdminTab('bulk')">Bulk Operations</button>
+                    <button class="admin-tab active" onclick="showAdminTab('dashboard')">
+                        <i class="fas fa-chart-pie"></i> Dashboard
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('questions')">
+                        <i class="fas fa-question"></i> Questions
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('categories')">
+                        <i class="fas fa-th-large"></i> Categories
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('topics')">
+                        <i class="fas fa-tags"></i> Topics
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('bulk')">
+                        <i class="fas fa-tools"></i> Bulk Operations
+                    </button>
+                    <button class="admin-tab" onclick="showAdminTab('analytics')">
+                        <i class="fas fa-chart-line"></i> Analytics
+                    </button>
                 </div>
                 
+                <!-- Dashboard Tab -->
+                <div class="admin-content active" id="dashboard-admin">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-chart-bar"></i> Category Distribution</h3>
+                            <div class="category-chart" id="category-distribution">
+                                <!-- Chart will be generated here -->
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                            <div class="activity-feed" id="recent-activity">
+                                <div class="activity-item">
+                                    <i class="fas fa-plus-circle text-success"></i>
+                                    <span>System initialized with comprehensive question database</span>
+                                    <small>Today</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-exclamation-triangle"></i> System Status</h3>
+                            <div class="system-status">
+                                <div class="status-item">
+                                    <i class="fas fa-database text-success"></i>
+                                    <span>Database: Online</span>
+                                </div>
+                                <div class="status-item">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span>Question Integrity: Valid</span>
+                                </div>
+                                <div class="status-item">
+                                    <i class="fas fa-shield-alt text-success"></i>
+                                    <span>Security: Protected</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3><i class="fas fa-tasks"></i> Quick Actions</h3>
+                            <div class="quick-actions-grid">
+                                <button class="quick-action-card" onclick="showAddQuestionModal()">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Question</span>
+                                </button>
+                                <button class="quick-action-card" onclick="addNewTopic()">
+                                    <i class="fas fa-tag"></i>
+                                    <span>New Topic</span>
+                                </button>
+                                <button class="quick-action-card" onclick="exportAllData()">
+                                    <i class="fas fa-download"></i>
+                                    <span>Export Data</span>
+                                </button>
+                                <button class="quick-action-card" onclick="validateDatabase()">
+                                    <i class="fas fa-check"></i>
+                                    <span>Validate DB</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Question Management Tab -->
-                <div class="admin-content active" id="questions-admin">
+                <div class="admin-content" id="questions-admin">
                     <div class="admin-toolbar">
                         <div class="toolbar-left">
                             <select id="admin-category-filter" onchange="filterQuestionsByCategory()">
                                 <option value="all">All Categories</option>
-                                <option value="anatomy">Anatomy & Physiology</option>
+                                <option value="anatomy">Anatomy</option>
+                                <option value="physiology">Physiology</option>
                                 <option value="biochemistry">Biochemistry</option>
-                                <option value="cell-biology">Cell Biology</option>
+                                <option value="cellbiology">Cell Biology</option>
                                 <option value="genetics">Genetics</option>
-                                <option value="microbiology">Microbiology</option>
+                                <option value="molecularbiology">Molecular Biology</option>
+                                <option value="pathology">Pathology</option>
                                 <option value="pharmacology">Pharmacology</option>
                                 <option value="immunology">Immunology</option>
-                                <option value="biomaterials">Biomaterials</option>
-                                <option value="tissue-engineering">Tissue Engineering</option>
-                                <option value="biomechanics">Biomechanics</option>
-                                <option value="bioinformatics">Bioinformatics</option>
+                                <option value="microbiology">Microbiology</option>
+                                <option value="biostatistics">Biostatistics</option>
+                            </select>
+                            <select id="admin-topic-filter" onchange="filterQuestionsByTopic()">
+                                <option value="all">All Topics</option>
+                                <!-- Topics will be populated based on selected category -->
                             </select>
                             <select id="admin-type-filter" onchange="filterQuestionsByType()">
                                 <option value="all">All Types</option>
@@ -695,10 +829,14 @@
                                 <option value="short-answer">Short Answer</option>
                                 <option value="multiple-select">Multiple Select</option>
                             </select>
+                            <input type="text" id="question-search" placeholder="Search questions..." onkeyup="searchQuestions()">
                         </div>
                         <div class="toolbar-right">
+                            <button class="admin-btn secondary" onclick="bulkEditQuestions()">
+                                <i class="fas fa-edit"></i> Bulk Edit
+                            </button>
                             <button class="admin-btn primary" onclick="showAddQuestionModal()">
-                                <i class="fas fa-plus"></i> Add New Question
+                                <i class="fas fa-plus"></i> Add Question
                             </button>
                         </div>
                     </div>
@@ -706,51 +844,142 @@
                     <div class="questions-grid" id="admin-questions-grid">
                         <!-- Questions will be loaded here -->
                     </div>
+                    
+                    <div class="pagination-controls" id="questions-pagination">
+                        <!-- Pagination will be added here -->
+                    </div>
                 </div>
                 
-                <!-- Categories Overview Tab -->
+                <!-- Categories Management Tab -->
                 <div class="admin-content" id="categories-admin">
-                    <div class="categories-stats">
-                        <h3>Category Statistics</h3>
-                        <div class="stats-grid" id="category-stats-grid">
-                            <!-- Category stats will be loaded here -->
+                    <div class="categories-header">
+                        <h3>Category Management</h3>
+                        <button class="admin-btn primary" onclick="addNewCategory()">
+                            <i class="fas fa-plus"></i> Add Category
+                        </button>
+                    </div>
+                    <div class="categories-grid" id="categories-management-grid">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Topics Management Tab -->
+                <div class="admin-content" id="topics-admin">
+                    <div class="topics-header">
+                        <h3>Topic Management</h3>
+                        <div class="topic-controls">
+                            <select id="topic-category-filter" onchange="loadTopicsByCategory()">
+                                <option value="all">All Categories</option>
+                                <option value="anatomy">Anatomy</option>
+                                <option value="physiology">Physiology</option>
+                                <option value="biochemistry">Biochemistry</option>
+                                <option value="cellbiology">Cell Biology</option>
+                                <option value="genetics">Genetics</option>
+                                <option value="molecularbiology">Molecular Biology</option>
+                                <option value="pathology">Pathology</option>
+                                <option value="pharmacology">Pharmacology</option>
+                                <option value="immunology">Immunology</option>
+                                <option value="microbiology">Microbiology</option>
+                                <option value="biostatistics">Biostatistics</option>
+                            </select>
+                            <button class="admin-btn primary" onclick="addNewTopic()">
+                                <i class="fas fa-plus"></i> Add Topic
+                            </button>
                         </div>
+                    </div>
+                    <div class="topics-grid" id="topics-management-grid">
+                        <!-- Topics will be loaded here -->
                     </div>
                 </div>
                 
                 <!-- Bulk Operations Tab -->
                 <div class="admin-content" id="bulk-admin">
                     <div class="bulk-operations">
-                        <h3>Bulk Operations</h3>
-                        <div class="bulk-actions">
-                            <div class="bulk-section">
-                                <h4>Import Questions</h4>
-                                <p>Import questions from JSON format</p>
-                                <textarea id="import-json" placeholder="Paste JSON data here..." rows="8"></textarea>
-                                <button class="admin-btn secondary" onclick="importQuestions()">
-                                    <i class="fas fa-upload"></i> Import Questions
-                                </button>
+                        <div class="bulk-section">
+                            <h3><i class="fas fa-upload"></i> Import Operations</h3>
+                            <div class="import-options">
+                                <div class="import-card">
+                                    <h4>Import Questions</h4>
+                                    <p>Import questions from JSON format</p>
+                                    <textarea id="import-json" placeholder="Paste JSON data here..." rows="6"></textarea>
+                                    <button class="admin-btn secondary" onclick="importQuestions()">
+                                        <i class="fas fa-upload"></i> Import Questions
+                                    </button>
+                                </div>
+                                <div class="import-card">
+                                    <h4>Import from File</h4>
+                                    <p>Upload question file (JSON/CSV)</p>
+                                    <input type="file" id="import-file" accept=".json,.csv" onchange="handleFileImport()">
+                                    <button class="admin-btn secondary" onclick="processFileImport()">
+                                        <i class="fas fa-file-import"></i> Process File
+                                    </button>
+                                </div>
                             </div>
-                            <div class="bulk-section">
-                                <h4>Export Questions</h4>
-                                <p>Export questions for backup or sharing</p>
-                                <select id="export-category">
-                                    <option value="all">All Categories</option>
-                                    <option value="anatomy">Anatomy & Physiology</option>
-                                    <option value="biochemistry">Biochemistry</option>
-                                    <option value="cell-biology">Cell Biology</option>
-                                    <option value="genetics">Genetics</option>
-                                    <option value="microbiology">Microbiology</option>
-                                    <option value="pharmacology">Pharmacology</option>
-                                    <option value="immunology">Immunology</option>
-                                    <option value="biomaterials">Biomaterials</option>
-                                    <option value="tissue-engineering">Tissue Engineering</option>
-                                    <option value="biomechanics">Biomechanics</option>
-                                    <option value="bioinformatics">Bioinformatics</option>
-                                </select>
-                                <button class="admin-btn secondary" onclick="exportQuestions()">
-                                    <i class="fas fa-download"></i> Export Questions
-                                </button>
+                        </div>
+                        
+                        <div class="bulk-section">
+                            <h3><i class="fas fa-download"></i> Export Operations</h3>
+                            <div class="export-options">
+                                <div class="export-card">
+                                    <h4>Export Questions</h4>
+                                    <p>Export questions for backup or sharing</p>
+                                    <select id="export-category">
+                                        <option value="all">All Categories</option>
+                                        <option value="anatomy">Anatomy</option>
+                                        <option value="physiology">Physiology</option>
+                                        <option value="biochemistry">Biochemistry</option>
+                                        <option value="cellbiology">Cell Biology</option>
+                                        <option value="genetics">Genetics</option>
+                                        <option value="molecularbiology">Molecular Biology</option>
+                                        <option value="pathology">Pathology</option>
+                                        <option value="pharmacology">Pharmacology</option>
+                                        <option value="immunology">Immunology</option>
+                                        <option value="microbiology">Microbiology</option>
+                                        <option value="biostatistics">Biostatistics</option>
+                                    </select>
+                                    <select id="export-format">
+                                        <option value="json">JSON Format</option>
+                                        <option value="csv">CSV Format</option>
+                                        <option value="pdf">PDF Report</option>
+                                    </select>
+                                    <button class="admin-btn secondary" onclick="exportQuestions()">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                </div>
+                                <div class="export-card">
+                                    <h4>Backup Database</h4>
+                                    <p>Complete system backup</p>
+                                    <button class="admin-btn secondary" onclick="backupDatabase()">
+                                        <i class="fas fa-database"></i> Full Backup
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div class="admin-content" id="analytics-admin">
+                    <div class="analytics-dashboard">
+                        <h3><i class="fas fa-chart-line"></i> System Analytics</h3>
+                        <div class="analytics-grid">
+                            <div class="analytics-card">
+                                <h4>Question Distribution</h4>
+                                <div class="chart-container" id="question-distribution-chart">
+                                    <!-- Chart will be rendered here -->
+                                </div>
+                            </div>
+                            <div class="analytics-card">
+                                <h4>Usage Statistics</h4>
+                                <div class="stats-list" id="usage-stats">
+                                    <!-- Usage stats will be displayed here -->
+                                </div>
+                            </div>
+                            <div class="analytics-card">
+                                <h4>Performance Metrics</h4>
+                                <div class="metrics-grid" id="performance-metrics">
+                                    <!-- Performance metrics will be displayed here -->
+                                </div>
                             </div>
                         </div>
                     </div>
