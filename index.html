@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biomedical Quiz Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-dna"></i>
+                <h1>BioQuiz Hub</h1>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#categories" class="nav-link">Categories</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#stats" class="nav-link">Statistics</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Home Section -->
+        <section id="home" class="section home-section active">
+            <div class="container">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h2 class="hero-title">Master Biomedical Sciences</h2>
+                        <p class="hero-subtitle">Challenge yourself with comprehensive quizzes covering all major areas of biomedical science</p>
+                        <button class="cta-button" onclick="showCategories()">
+                            <i class="fas fa-play"></i>
+                            Start Quiz Journey
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">10</div>
+                            <div class="stat-label">Categories</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Questions</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">Learning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categories" class="section categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Choose Your Category</h2>
+                    <p>Select a biomedical field to test your knowledge</p>
+                </div>
+                
+                <div class="categories-grid">
+                    <!-- Core Areas -->
+                    <div class="category-group">
+                        <h3 class="group-title">Core Areas</h3>
+                        <div class="category-cards">
+                            <div class="category-card" onclick="startQuiz('anatomy')">
+                                <div class="card-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <h4>Anatomy & Physiology</h4>
+                                <p>Human body structure and function</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('biochemistry')">
+                                <div class="card-icon">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <h4>Biochemistry</h4>
+                                <p>Chemical processes in living organisms</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('cellbiology')">
+                                <div class="card-icon">
+                                    <i class="fas fa-microscope"></i>
+                                </div>
+                                <h4>Cell Biology</h4>
+                                <p>Structure and function of cells</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('genetics')">
+                                <div class="card-icon">
+                                    <i class="fas fa-dna"></i>
+                                </div>
+                                <h4>Genetics</h4>
+                                <p>Heredity and variation of organisms</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('microbiology')">
+                                <div class="card-icon">
+                                    <i class="fas fa-bacteria"></i>
+                                </div>
+                                <h4>Microbiology</h4>
+                                <p>Study of microorganisms</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Specialized Fields -->
+                    <div class="category-group">
+                        <h3 class="group-title">Specialized Fields</h3>
+                        <div class="category-cards">
+                            <div class="category-card" onclick="startQuiz('pharmacology')">
+                                <div class="card-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <h4>Pharmacology</h4>
+                                <p>Drug action and therapeutic effects</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('immunology')">
+                                <div class="card-icon">
+                                    <i class="fas fa-shield-virus"></i>
+                                </div>
+                                <h4>Immunology</h4>
+                                <p>Immune system and responses</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('biomaterials')">
+                                <div class="card-icon">
+                                    <i class="fas fa-cube"></i>
+                                </div>
+                                <h4>Biomaterials</h4>
+                                <p>Materials for medical applications</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('tissueengineering')">
+                                <div class="card-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <h4>Tissue Engineering</h4>
+                                <p>Creating artificial tissues and organs</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('biomechanics')">
+                                <div class="card-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <h4>Biomechanics</h4>
+                                <p>Mechanics of biological systems</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                            
+                            <div class="category-card" onclick="startQuiz('bioinformatics')">
+                                <div class="card-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <h4>Bioinformatics</h4>
+                                <p>Computational analysis of biological data</p>
+                                <span class="question-count">50 questions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section quiz-section">
+            <div class="container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h2 id="quiz-category-title">Quiz Category</h2>
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <span class="progress-text">
+                                Question <span id="current-question">1</span> of <span id="total-questions">10</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="quiz-controls">
+                        <div class="timer" id="timer">30</div>
+                        <button class="quit-button" onclick="quitQuiz()">
+                            <i class="fas fa-times"></i> Quit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quiz-content">
+                    <div class="question-card">
+                        <h3 class="question-text" id="question-text">Loading question...</h3>
+                        <div class="options-grid" id="options-grid">
+                            <!-- Options will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-actions">
+                        <button class="action-button secondary" onclick="skipQuestion()" id="skip-button">
+                            <i class="fas fa-forward"></i> Skip
+                        </button>
+                        <button class="action-button primary" onclick="nextQuestion()" id="next-button" disabled>
+                            <i class="fas fa-arrow-right"></i> Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="section results-section">
+            <div class="container">
+                <div class="results-content">
+                    <div class="results-header">
+                        <div class="score-circle">
+                            <div class="score-number" id="final-score">0</div>
+                            <div class="score-label">Score</div>
+                        </div>
+                        <h2>Quiz Complete!</h2>
+                        <p id="results-message">Great job on completing the quiz!</p>
+                    </div>
+                    
+                    <div class="results-stats">
+                        <div class="stat-box">
+                            <div class="stat-value" id="correct-answers">0</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="incorrect-answers">0</div>
+                            <div class="stat-label">Incorrect</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="skipped-answers">0</div>
+                            <div class="stat-label">Skipped</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="time-taken">0:00</div>
+                            <div class="stat-label">Time</div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-actions">
+                        <button class="action-button primary" onclick="retryQuiz()">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                        <button class="action-button secondary" onclick="showCategories()">
+                            <i class="fas fa-list"></i> Choose Category
+                        </button>
+                        <button class="action-button secondary" onclick="showHome()">
+                            <i class="fas fa-home"></i> Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 BioQuiz Hub. Enhancing biomedical education through interactive learning.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
