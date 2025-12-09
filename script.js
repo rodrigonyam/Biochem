@@ -14,32 +14,436 @@ let currentQuiz = {
     userAnswers: []
 };
 
-// Topic-Organized Question Database
+// Question Database
 const questionDatabase = {
-    anatomy: {
-        topics: {
-            "Skeletal System": [
-                {
-                    type: "multiple-choice",
-                    question: "Which of the following is the largest bone in the human body?",
-                    options: ["Tibia", "Femur", "Humerus", "Radius"],
-                    correct: 1,
-                    explanation: "The femur (thighbone) is the longest and strongest bone in the human body."
-                },
-                {
-                    type: "true-false",
-                    question: "The femur is located in the arm.",
-                    correct: false,
-                    explanation: "False. The femur is the thighbone, located in the leg, not the arm."
-                },
-                {
-                    type: "multiple-select",
-                    question: "Which bones are part of the skull? (Select all that apply)",
-                    options: ["Frontal bone", "Femur", "Parietal bone", "Tibia", "Occipital bone"],
-                    correct: [0, 2, 4],
-                    explanation: "The frontal, parietal, and occipital bones are all part of the skull. The femur and tibia are leg bones."
-                },
-                {
+    anatomy: [
+        {
+            type: "multiple-choice",
+            question: "Which of the following is the largest bone in the human body?",
+            options: ["Tibia", "Femur", "Humerus", "Radius"],
+            correct: 1,
+            explanation: "The femur (thighbone) is the longest and strongest bone in the human body."
+        },
+        {
+            type: "true-false",
+            question: "The heart has four chambers.",
+            correct: true,
+            explanation: "True. The human heart has four chambers: two atria (left and right) and two ventricles (left and right)."
+        },
+        {
+            type: "multiple-select",
+            question: "Which of the following are parts of the respiratory system? (Select all that apply)",
+            options: ["Lungs", "Heart", "Trachea", "Bronchi", "Stomach"],
+            correct: [0, 2, 3],
+            explanation: "The respiratory system includes the lungs, trachea, and bronchi. The heart is part of the circulatory system, and the stomach is part of the digestive system."
+        },
+        {
+            type: "short-answer",
+            question: "What is the primary muscle responsible for breathing?",
+            correctAnswers: ["diaphragm", "the diaphragm"],
+            explanation: "The diaphragm is the primary muscle of respiration, contracting to create negative pressure for inhalation."
+        },
+        {
+            type: "multiple-choice",
+            question: "What is the functional unit of the kidney?",
+            options: ["Glomerulus", "Nephron", "Tubule", "Collecting duct"],
+            correct: 1,
+            explanation: "The nephron is the functional unit of the kidney, responsible for filtering blood and producing urine."
+        },
+        {
+            type: "true-false",
+            question: "The femur is located in the arm.",
+            correct: false,
+            explanation: "False. The femur is the thighbone, located in the leg, not the arm."
+        },
+        {
+            type: "multiple-select",
+            question: "Which bones are part of the skull? (Select all that apply)",
+            options: ["Frontal bone", "Femur", "Parietal bone", "Tibia", "Occipital bone"],
+            correct: [0, 2, 4],
+            explanation: "The frontal, parietal, and occipital bones are all part of the skull. The femur and tibia are leg bones."
+        },
+        {
+            type: "short-answer",
+            question: "What is the smallest bone in the human body?",
+            correctAnswers: ["stapes", "the stapes", "stirrup", "the stirrup"],
+            explanation: "The stapes (stirrup bone) in the middle ear is the smallest bone in the human body."
+        }
+    ],
+
+    biochemistry: [
+        {
+            type: "multiple-choice",
+            question: "What is the primary energy currency of the cell?",
+            options: ["ADP", "ATP", "NADH", "GTP"],
+            correct: 1,
+            explanation: "ATP (Adenosine Triphosphate) is the primary energy currency used by cells for various metabolic processes."
+        },
+        {
+            type: "true-false",
+            question: "ATP stands for Adenosine Triphosphate.",
+            correct: true,
+            explanation: "True. ATP is indeed Adenosine Triphosphate, the primary energy currency of cells."
+        },
+        {
+            type: "short-answer",
+            question: "What enzyme breaks down starch into glucose?",
+            correctAnswers: ["amylase", "alpha-amylase"],
+            explanation: "Amylase is the enzyme responsible for breaking down starch into glucose molecules."
+        },
+        {
+            type: "multiple-choice",
+            question: "What is the pH of normal human blood?",
+            options: ["6.8", "7.0", "7.4", "8.0"],
+            correct: 2,
+            explanation: "Normal human blood pH is approximately 7.4, which is slightly alkaline."
+        },
+        {
+            type: "multiple-select",
+            question: "Which of the following are products of cellular respiration? (Select all that apply)",
+            options: ["ATP", "Carbon dioxide", "Oxygen", "Water", "Glucose"],
+            correct: [0, 1, 3],
+            explanation: "Cellular respiration produces ATP, carbon dioxide, and water. Oxygen and glucose are reactants, not products."
+        },
+        {
+            type: "true-false",
+            question: "Enzymes are consumed during chemical reactions.",
+            correct: false,
+            explanation: "False. Enzymes are catalysts that speed up reactions but are not consumed in the process."
+        },
+        {
+            type: "short-answer",
+            question: "What vitamin is synthesized by the skin when exposed to sunlight?",
+            correctAnswers: ["vitamin d", "vitamin d3", "cholecalciferol"],
+            explanation: "Vitamin D is synthesized in the skin when 7-dehydrocholesterol is exposed to UVB radiation from sunlight."
+        },
+        {
+            type: "multiple-choice",
+            question: "What is the end product of glycolysis?",
+            options: ["Glucose", "Pyruvate", "Lactate", "Acetyl-CoA"],
+            correct: 1,
+            explanation: "Glycolysis breaks down glucose into two molecules of pyruvate, producing ATP and NADH."
+        }
+    ],
+
+    cellbiology: [
+        {
+            type: "multiple-choice",
+            question: "Which organelle is responsible for protein synthesis?",
+            options: ["Mitochondria", "Ribosomes", "Golgi apparatus", "Lysosomes"],
+            correct: 1,
+            explanation: "Ribosomes are the cellular organelles responsible for protein synthesis (translation)."
+        },
+        {
+            type: "true-false",
+            question: "The mitochondria is known as the powerhouse of the cell.",
+            correct: true,
+            explanation: "True. Mitochondria produce ATP through cellular respiration, earning the nickname 'powerhouse of the cell'."
+        },
+        {
+            type: "short-answer",
+            question: "During which phase of mitosis do chromosomes align at the cell's equator?",
+            correctAnswers: ["metaphase", "meta phase"],
+            explanation: "During metaphase, chromosomes align at the metaphase plate (cell's equator) before separation."
+        },
+        {
+            type: "multiple-select",
+            question: "Which organelles are involved in the endomembrane system? (Select all that apply)",
+            options: ["Nucleus", "Endoplasmic reticulum", "Golgi apparatus", "Mitochondria", "Lysosomes"],
+            correct: [0, 1, 2, 4],
+            explanation: "The endomembrane system includes the nucleus, ER, Golgi apparatus, and lysosomes. Mitochondria are not part of this system."
+        },
+        {
+            type: "multiple-choice",
+            question: "What is the primary component of the cell membrane?",
+            options: ["Proteins", "Carbohydrates", "Phospholipids", "Nucleic acids"],
+            correct: 2,
+            explanation: "Phospholipids form the bilayer structure that is the foundation of all cell membranes."
+        },
+        {
+            type: "true-false",
+            question: "Osmosis is the movement of water across a selectively permeable membrane.",
+            correct: true,
+            explanation: "True. Osmosis is specifically the movement of water molecules across a selectively permeable membrane."
+        }
+    ],
+
+    genetics: [
+        {
+            type: "short-answer",
+            question: "What does DNA stand for?",
+            correctAnswers: ["deoxyribonucleic acid", "deoxy ribonucleic acid"],
+            explanation: "DNA stands for Deoxyribonucleic Acid, the molecule that carries genetic information."
+        },
+        {
+            type: "multiple-choice",
+            question: "How many base pairs are in the human genome?",
+            options: ["1 billion", "2 billion", "3 billion", "4 billion"],
+            correct: 2,
+            explanation: "The human genome contains approximately 3 billion base pairs of DNA."
+        },
+        {
+            type: "true-false",
+            question: "A codon consists of three nucleotides.",
+            correct: true,
+            explanation: "True. A codon is a sequence of three nucleotides that codes for a specific amino acid."
+        },
+        {
+            type: "multiple-select",
+            question: "Which of the following are DNA bases? (Select all that apply)",
+            options: ["Adenine", "Uracil", "Guanine", "Cytosine", "Thymine"],
+            correct: [0, 2, 3, 4],
+            explanation: "DNA contains Adenine, Guanine, Cytosine, and Thymine. Uracil is found in RNA, not DNA."
+        },
+        {
+            type: "multiple-choice",
+            question: "Which inheritance pattern requires both parents to carry a gene for offspring to be affected?",
+            options: ["Dominant", "Recessive", "X-linked", "Codominant"],
+            correct: 1,
+            explanation: "Recessive inheritance requires both parents to carry the gene for offspring to express the trait."
+        },
+        {
+            type: "true-false",
+            question: "Transcription creates proteins from RNA.",
+            correct: false,
+            explanation: "False. Transcription creates RNA from DNA. Translation creates proteins from RNA."
+        }
+    ],
+
+    microbiology: [
+        {
+            question: "Which of the following is NOT a type of bacteria based on shape?",
+            options: ["Cocci", "Bacilli", "Spirilla", "Viruses"],
+            correct: 3,
+            explanation: "Viruses are not bacteria and are not classified by shape like bacteria are."
+        },
+        {
+            question: "What is the most heat-resistant form of bacterial life?",
+            options: ["Vegetative cells", "Spores", "Cysts", "Biofilms"],
+            correct: 1,
+            explanation: "Bacterial spores are extremely heat-resistant and can survive harsh conditions."
+        },
+        {
+            question: "Which staining method is used to differentiate bacteria into two major groups?",
+            options: ["Acid-fast stain", "Gram stain", "Spore stain", "Capsule stain"],
+            correct: 1,
+            explanation: "Gram staining differentiates bacteria into Gram-positive and Gram-negative based on cell wall structure."
+        },
+        {
+            question: "What is the primary component of fungal cell walls?",
+            options: ["Cellulose", "Peptidoglycan", "Chitin", "Protein"],
+            correct: 2,
+            explanation: "Chitin is the primary structural component of fungal cell walls."
+        },
+        {
+            question: "Which microorganism is responsible for causing malaria?",
+            options: ["Bacteria", "Virus", "Protozoan", "Fungus"],
+            correct: 2,
+            explanation: "Malaria is caused by Plasmodium species, which are protozoans transmitted by mosquitoes."
+        }
+    ],
+
+    pharmacology: [
+        {
+            question: "What is the study of drug absorption, distribution, metabolism, and excretion called?",
+            options: ["Pharmacodynamics", "Pharmacokinetics", "Toxicology", "Posology"],
+            correct: 1,
+            explanation: "Pharmacokinetics studies what the body does to drugs (ADME processes)."
+        },
+        {
+            question: "Which route of drug administration provides 100% bioavailability?",
+            options: ["Oral", "Intramuscular", "Intravenous", "Sublingual"],
+            correct: 2,
+            explanation: "Intravenous administration provides 100% bioavailability as the drug goes directly into circulation."
+        },
+        {
+            question: "What is the term for the minimum concentration of drug needed to produce an effect?",
+            options: ["ED50", "LD50", "Threshold dose", "Toxic dose"],
+            correct: 2,
+            explanation: "Threshold dose is the minimum concentration required to produce a measurable effect."
+        },
+        {
+            question: "Which enzyme is responsible for metabolizing many drugs in the liver?",
+            options: ["Cytochrome P450", "Monoamine oxidase", "Acetylcholinesterase", "Phospholipase"],
+            correct: 0,
+            explanation: "Cytochrome P450 enzymes are the primary drug-metabolizing enzymes in the liver."
+        },
+        {
+            question: "What does 'half-life' mean in pharmacology?",
+            options: ["Time to reach peak concentration", "Time for 50% drug elimination", "Duration of action", "Time to onset"],
+            correct: 1,
+            explanation: "Half-life is the time required for the drug concentration to decrease by 50%."
+        }
+    ],
+
+    immunology: [
+        {
+            question: "Which cells are primarily responsible for antibody production?",
+            options: ["T cells", "B cells", "NK cells", "Dendritic cells"],
+            correct: 1,
+            explanation: "B cells differentiate into plasma cells that produce antibodies."
+        },
+        {
+            question: "What is the most abundant antibody in human serum?",
+            options: ["IgA", "IgE", "IgG", "IgM"],
+            correct: 2,
+            explanation: "IgG is the most abundant antibody in blood and provides long-term immunity."
+        },
+        {
+            question: "Which type of immunity is provided by vaccines?",
+            options: ["Active natural", "Active artificial", "Passive natural", "Passive artificial"],
+            correct: 1,
+            explanation: "Vaccines provide active artificial immunity by stimulating the immune system to produce antibodies."
+        },
+        {
+            question: "What is the primary function of helper T cells?",
+            options: ["Kill infected cells", "Produce antibodies", "Coordinate immune response", "Present antigens"],
+            correct: 2,
+            explanation: "Helper T cells coordinate the immune response by activating other immune cells."
+        },
+        {
+            question: "Which cells present antigens to T cells?",
+            options: ["B cells", "Dendritic cells", "NK cells", "Plasma cells"],
+            correct: 1,
+            explanation: "Dendritic cells are professional antigen-presenting cells that activate T cells."
+        }
+    ],
+
+    biomaterials: [
+        {
+            question: "Which property is most important for biomaterials in contact with blood?",
+            options: ["Strength", "Biocompatibility", "Color", "Weight"],
+            correct: 1,
+            explanation: "Biocompatibility is crucial for biomaterials to avoid adverse reactions with biological tissues."
+        },
+        {
+            question: "What is the most commonly used metal in orthopedic implants?",
+            options: ["Aluminum", "Titanium", "Copper", "Iron"],
+            correct: 1,
+            explanation: "Titanium is widely used due to its excellent biocompatibility and corrosion resistance."
+        },
+        {
+            question: "Which polymer is commonly used in biodegradable sutures?",
+            options: ["Polyethylene", "Polypropylene", "Polylactic acid", "Polyethylene terephthalate"],
+            correct: 2,
+            explanation: "Polylactic acid (PLA) is biodegradable and commonly used in absorbable sutures."
+        },
+        {
+            question: "What does 'osteointegration' refer to?",
+            options: ["Bone healing", "Direct bone-implant contact", "Bone growth", "Bone density"],
+            correct: 1,
+            explanation: "Osteointegration is the direct structural connection between bone and implant surface."
+        },
+        {
+            question: "Which ceramic is commonly used in dental implants?",
+            options: ["Silicon carbide", "Aluminum oxide", "Zirconium dioxide", "Titanium carbide"],
+            correct: 2,
+            explanation: "Zirconium dioxide (zirconia) is commonly used in dental implants due to its biocompatibility."
+        }
+    ],
+
+    tissueengineering: [
+        {
+            question: "What are the three main components of tissue engineering?",
+            options: ["Cells, scaffolds, signals", "Proteins, cells, DNA", "Scaffolds, nutrients, oxygen", "Cells, blood, nerves"],
+            correct: 0,
+            explanation: "The tissue engineering triad consists of cells, scaffolds, and signaling molecules."
+        },
+        {
+            question: "What is the primary purpose of a scaffold in tissue engineering?",
+            options: ["Provide nutrients", "Support cell growth", "Deliver drugs", "Generate heat"],
+            correct: 1,
+            explanation: "Scaffolds provide structural support for cells to attach, grow, and form new tissue."
+        },
+        {
+            question: "Which type of stem cells can differentiate into any cell type?",
+            options: ["Multipotent", "Pluripotent", "Totipotent", "Unipotent"],
+            correct: 2,
+            explanation: "Totipotent stem cells can differentiate into any cell type, including extraembryonic tissues."
+        },
+        {
+            question: "What is the process of growing cells outside the body called?",
+            options: ["In vivo culture", "Ex vivo culture", "In vitro culture", "In situ culture"],
+            correct: 2,
+            explanation: "In vitro culture refers to growing cells in laboratory conditions outside the body."
+        },
+        {
+            question: "Which growth factor is important for blood vessel formation?",
+            options: ["BMP", "TGF-β", "VEGF", "FGF"],
+            correct: 2,
+            explanation: "VEGF (Vascular Endothelial Growth Factor) is crucial for angiogenesis and blood vessel formation."
+        }
+    ],
+
+    biomechanics: [
+        {
+            question: "What is the study of forces and their effects on living organisms called?",
+            options: ["Biophysics", "Biomechanics", "Bioengineering", "Biotechnology"],
+            correct: 1,
+            explanation: "Biomechanics is the study of mechanical principles applied to biological systems."
+        },
+        {
+            question: "Which law states that stress is proportional to strain in elastic materials?",
+            options: ["Newton's law", "Hooke's law", "Pascal's law", "Bernoulli's law"],
+            correct: 1,
+            explanation: "Hooke's law describes the linear relationship between stress and strain in elastic materials."
+        },
+        {
+            question: "What is the primary function of cartilage in joints?",
+            options: ["Produce synovial fluid", "Reduce friction", "Provide stability", "Generate force"],
+            correct: 1,
+            explanation: "Cartilage provides a smooth, low-friction surface for joint movement."
+        },
+        {
+            question: "Which type of muscle contraction occurs when muscle length doesn't change?",
+            options: ["Concentric", "Eccentric", "Isometric", "Isotonic"],
+            correct: 2,
+            explanation: "Isometric contractions occur when muscle generates force without changing length."
+        },
+        {
+            question: "What is the center of mass of the human body typically located?",
+            options: ["Chest", "Abdomen", "Pelvis", "Head"],
+            correct: 2,
+            explanation: "The center of mass is typically located in the pelvis region, around the second sacral vertebra."
+        }
+    ],
+
+    bioinformatics: [
+        {
+            question: "What does BLAST stand for in bioinformatics?",
+            options: ["Basic Local Alignment Search Tool", "Biological Laboratory Analysis System Tool", "Binary Logic Assessment Search Tool", "Biomedical Literature Analysis Search Tool"],
+            correct: 0,
+            explanation: "BLAST is a widely used algorithm for comparing biological sequence information."
+        },
+        {
+            question: "Which file format is commonly used to store DNA sequences?",
+            options: [".txt", ".doc", ".fasta", ".pdf"],
+            correct: 2,
+            explanation: "FASTA format is the standard text-based format for representing nucleotide or protein sequences."
+        },
+        {
+            question: "What is the purpose of sequence alignment?",
+            options: ["To store sequences", "To identify similarities", "To delete sequences", "To create sequences"],
+            correct: 1,
+            explanation: "Sequence alignment is used to identify regions of similarity between biological sequences."
+        },
+        {
+            question: "Which database is the primary repository for protein sequences?",
+            options: ["GenBank", "UniProt", "PubMed", "EMBL"],
+            correct: 1,
+            explanation: "UniProt is the primary database for protein sequence and annotation data."
+        },
+        {
+            question: "What does phylogenetic analysis study?",
+            options: ["Protein structure", "Evolutionary relationships", "Gene expression", "Metabolic pathways"],
+            correct: 1,
+            explanation: "Phylogenetic analysis studies evolutionary relationships between species or genes."
+        }
+    ]
+};
+
+// Utility Functions
+function showSection(sectionId) {
                     type: "short-answer",
                     question: "What is the smallest bone in the human body?",
                     correctAnswers: ["stapes", "the stapes", "stirrup", "the stirrup"],
