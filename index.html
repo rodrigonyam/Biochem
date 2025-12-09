@@ -18,6 +18,7 @@
             <nav class="nav">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#categories" class="nav-link">Categories</a>
+                <a href="#community" class="nav-link">Community</a>
                 <a href="#progress" class="nav-link">Progress</a>
                 <a href="#leaderboards" class="nav-link" id="leaderboards-nav" style="display: none;">Leaderboards</a>
                 <a href="#profile" class="nav-link" id="profile-nav" style="display: none;">Profile</a>
@@ -37,6 +38,7 @@
                     <div class="user-dropdown" id="user-dropdown">
                         <a href="#profile" onclick="showProfile(); closeUserDropdown();"><i class="fas fa-user"></i> Profile</a>
                         <a href="#progress" onclick="showProgress(); closeUserDropdown();"><i class="fas fa-chart-line"></i> Progress</a>
+                        <a href="#community" onclick="showCommunity(); closeUserDropdown();"><i class="fas fa-users"></i> Community</a>
                         <a href="#leaderboards" onclick="showLeaderboards(); closeUserDropdown();"><i class="fas fa-trophy"></i> Leaderboards</a>
                         <a href="#admin" onclick="showAdmin(); closeUserDropdown();" id="admin-dropdown-link" style="display: none;"><i class="fas fa-tools"></i> Admin Panel</a>
                         <a href="#" onclick="showAccountSettings(); closeUserDropdown();"><i class="fas fa-cog"></i> Settings</a>
@@ -51,27 +53,127 @@
         <!-- Home Section -->
         <section id="home" class="section home-section active">
             <div class="container">
+                <!-- Hero Section -->
                 <div class="hero">
                     <div class="hero-content">
-                        <h2 class="hero-title">Master Biomedical Sciences</h2>
-                        <p class="hero-subtitle">Challenge yourself with comprehensive quizzes covering all major areas of biomedical science</p>
-                        <button class="cta-button" onclick="showCategories()">
-                            <i class="fas fa-play"></i>
-                            Start Quiz Journey
+                        <h1>Welcome to Biomedical Quiz Master</h1>
+                        <p class="hero-subtitle">Master biomedical sciences through interactive learning and community collaboration</p>
+                        <div class="hero-description">
+                            <p>Dive deep into 11 comprehensive biomedical categories with over 500 carefully crafted questions. Track your progress, compete with peers, and join a vibrant learning community.</p>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="cta-button primary" onclick="showSection('categories')">
+                                <i class="fas fa-play"></i> Start Learning
+                            </button>
+                            <button class="cta-button secondary" onclick="showSection('community')">
+                                <i class="fas fa-users"></i> Join Community
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="floating-elements">
+                            <div class="float-element dna"><i class="fas fa-dna"></i></div>
+                            <div class="float-element microscope"><i class="fas fa-microscope"></i></div>
+                            <div class="float-element heartbeat"><i class="fas fa-heartbeat"></i></div>
+                            <div class="float-element atom"><i class="fas fa-atom"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Introduction Section -->
+                <div class="intro-section">
+                    <div class="intro-content">
+                        <h2>Your Gateway to Biomedical Excellence</h2>
+                        <div class="intro-grid">
+                            <div class="intro-card">
+                                <div class="intro-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3>Comprehensive Learning</h3>
+                                <p>Master 11 core biomedical areas from Cell Biology to Biostatistics with expertly designed questions and detailed explanations.</p>
+                            </div>
+                            <div class="intro-card">
+                                <div class="intro-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h3>Track Your Progress</h3>
+                                <p>Monitor your learning journey with detailed analytics, performance tracking, and personalized recommendations.</p>
+                            </div>
+                            <div class="intro-card">
+                                <div class="intro-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h3>Compete & Excel</h3>
+                                <p>Challenge yourself with leaderboards, achievement badges, and competitive learning experiences.</p>
+                            </div>
+                            <div class="intro-card">
+                                <div class="intro-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h3>Community Learning</h3>
+                                <p>Connect with fellow learners, share resources, participate in discussions, and grow together.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Quizzes Section -->
+                <div class="featured-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-star"></i> Featured Quizzes</h2>
+                        <p>Popular quizzes chosen by our community and experts</p>
+                    </div>
+                    
+                    <div class="featured-grid" id="featuredQuizzesGrid">
+                        <!-- Featured quizzes will be loaded here by JavaScript -->
+                    </div>
+                    
+                    <div class="view-all-section">
+                        <button class="cta-button outline" onclick="showSection('categories')">
+                            <i class="fas fa-th-large"></i> View All Categories
                         </button>
                     </div>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">10</div>
-                            <div class="stat-label">Categories</div>
+                </div>
+
+                <!-- Quick Stats Section -->
+                <div class="stats-section">
+                    <div class="section-header">
+                        <h2>Platform Statistics</h2>
+                        <p>Join thousands of learners worldwide</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalQuestionsCount">500+</div>
+                            <div class="stat-label">Practice Questions</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">500+</div>
-                            <div class="stat-label">Questions</div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalCategoriesCount">11</div>
+                            <div class="stat-label">Subject Areas</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">∞</div>
-                            <div class="stat-label">Learning</div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalUsersCount">1,234</div>
+                            <div class="stat-label">Active Learners</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalSessionsCount">5,678</div>
+                            <div class="stat-label">Quizzes Completed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action Section -->
+                <div class="cta-section">
+                    <div class="cta-content">
+                        <h2>Ready to Begin Your Learning Journey?</h2>
+                        <p>Join our community of dedicated biomedical students and professionals. Start with any category that interests you most!</p>
+                        <div class="cta-actions">
+                            <button class="cta-button large primary" onclick="showSection('categories')">
+                                <i class="fas fa-rocket"></i> Explore Categories
+                            </button>
+                            <button class="cta-button large secondary" onclick="showLogin()">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -82,119 +184,382 @@
         <section id="categories" class="section categories-section">
             <div class="container">
                 <div class="section-header">
-                    <h2>Choose Your Category</h2>
-                    <p>Select a biomedical field to test your knowledge</p>
+                    <h2><i class="fas fa-th-large"></i> Biomedical Quiz Categories</h2>
+                    <p>Comprehensive coverage of essential biomedical sciences - Choose your area of focus</p>
+                </div>
+
+                <!-- Category Filter Tabs -->
+                <div class="category-filters">
+                    <button class="filter-tab active" onclick="filterCategories('all')" data-filter="all">
+                        <i class="fas fa-globe"></i> All Categories
+                    </button>
+                    <button class="filter-tab" onclick="filterCategories('foundational')" data-filter="foundational">
+                        <i class="fas fa-foundation"></i> Foundational Sciences
+                    </button>
+                    <button class="filter-tab" onclick="filterCategories('clinical')" data-filter="clinical">
+                        <i class="fas fa-stethoscope"></i> Clinical Sciences
+                    </button>
+                    <button class="filter-tab" onclick="filterCategories('research')" data-filter="research">
+                        <i class="fas fa-flask"></i> Research & Methods
+                    </button>
                 </div>
                 
-                <div class="categories-grid">
-                    <!-- Core Areas -->
-                    <div class="category-group">
-                        <h3 class="group-title">Core Areas</h3>
+                <div class="categories-container">
+                    <!-- Foundational Sciences -->
+                    <div class="category-group" data-group="foundational">
+                        <div class="group-header">
+                            <h3 class="group-title"><i class="fas fa-foundation"></i> Foundational Sciences</h3>
+                            <p class="group-description">Core biological and chemical principles underlying biomedical sciences</p>
+                        </div>
                         <div class="category-cards">
-                            <div class="category-card" onclick="startQuiz('anatomy')">
-                                <div class="card-icon">
+                            <div class="category-card featured" onclick="startCategoryQuiz('anatomy')" data-category="anatomy">
+                                <div class="card-badge">Popular</div>
+                                <div class="card-icon anatomy">
                                     <i class="fas fa-user-md"></i>
                                 </div>
-                                <h4>Anatomy & Physiology</h4>
-                                <p>Human body structure and function</p>
-                                <span class="question-count">50 questions</span>
-                            </div>
-                            
-                            <div class="category-card" onclick="startQuiz('biochemistry')">
-                                <div class="card-icon">
-                                    <i class="fas fa-atom"></i>
+                                <div class="card-content">
+                                    <h4>Anatomy</h4>
+                                    <p>Human body structure, organ systems, and anatomical relationships</p>
+                                    <div class="card-details">
+                                        <span class="difficulty intermediate">Intermediate</span>
+                                        <span class="question-count" id="anatomy-count">Loading...</span>
+                                    </div>
                                 </div>
-                                <h4>Biochemistry</h4>
-                                <p>Chemical processes in living organisms</p>
-                                <span class="question-count">50 questions</span>
                             </div>
                             
-                            <div class="category-card" onclick="startQuiz('cellbiology')">
-                                <div class="card-icon">
+                            <div class="category-card" onclick="startCategoryQuiz('physiology')" data-category="physiology">
+                                <div class="card-icon physiology">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Physiology</h4>
+                                    <p>Body functions, homeostasis, and physiological mechanisms</p>
+                                    <div class="card-details">
+                                        <span class="difficulty advanced">Advanced</span>
+                                        <span class="question-count" id="physiology-count">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="category-card featured" onclick="startCategoryQuiz('biochemistry')" data-category="biochemistry">
+                                <div class="card-badge">Trending</div>
+                                <div class="card-icon biochemistry">
+                                    <i class="fas fa-flask"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Biochemistry</h4>
+                                    <p>Chemical processes, metabolic pathways, and biomolecules</p>
+                                    <div class="card-details">
+                                        <span class="difficulty advanced">Advanced</span>
+                                        <span class="question-count" id="biochemistry-count">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="category-card" onclick="startCategoryQuiz('cellbiology')" data-category="cellbiology">
+                                <div class="card-icon cellbiology">
                                     <i class="fas fa-microscope"></i>
                                 </div>
-                                <h4>Cell Biology</h4>
-                                <p>Structure and function of cells</p>
-                                <span class="question-count">50 questions</span>
+                                <div class="card-content">
+                                    <h4>Cell Biology</h4>
+                                    <p>Cellular structure, organelles, and cellular processes</p>
+                                    <div class="card-details">
+                                        <span class="difficulty intermediate">Intermediate</span>
+                                        <span class="question-count" id="cellbiology-count">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="category-card" onclick="startQuiz('genetics')">
-                                <div class="card-icon">
+                            <div class="category-card" onclick="startCategoryQuiz('genetics')" data-category="genetics">
+                                <div class="card-icon genetics">
                                     <i class="fas fa-dna"></i>
                                 </div>
-                                <h4>Genetics</h4>
-                                <p>Heredity and variation of organisms</p>
-                                <span class="question-count">50 questions</span>
-                            </div>
-                            
-                            <div class="category-card" onclick="startQuiz('microbiology')">
-                                <div class="card-icon">
-                                    <i class="fas fa-bacteria"></i>
+                                <div class="card-content">
+                                    <h4>Genetics</h4>
+                                    <p>Heredity, gene expression, and genetic variations</p>
+                                    <div class="card-details">
+                                        <span class="difficulty intermediate">Intermediate</span>
+                                        <span class="question-count" id="genetics-count">Loading...</span>
+                                    </div>
                                 </div>
-                                <h4>Microbiology</h4>
-                                <p>Study of microorganisms</p>
-                                <span class="question-count">50 questions</span>
+                            </div>
+
+                            <div class="category-card" onclick="startCategoryQuiz('molecularbiology')" data-category="molecularbiology">
+                                <div class="card-icon molecularbiology">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Molecular Biology</h4>
+                                    <p>DNA, RNA, proteins, and molecular mechanisms of life</p>
+                                    <div class="card-details">
+                                        <span class="difficulty expert">Expert</span>
+                                        <span class="question-count" id="molecularbiology-count">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Specialized Fields -->
-                    <div class="category-group">
-                        <h3 class="group-title">Specialized Fields</h3>
+                    <!-- Clinical Sciences -->
+                    <div class="category-group" data-group="clinical">
+                        <div class="group-header">
+                            <h3 class="group-title"><i class="fas fa-stethoscope"></i> Clinical Sciences</h3>
+                            <p class="group-description">Disease mechanisms, treatments, and clinical applications</p>
+                        </div>
                         <div class="category-cards">
-                            <div class="category-card" onclick="startQuiz('pharmacology')">
-                                <div class="card-icon">
+                            <div class="category-card" onclick="startCategoryQuiz('pathology')" data-category="pathology">
+                                <div class="card-icon pathology">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4>Pathology</h4>
+                                    <p>Disease processes, pathogenesis, and diagnostic methods</p>
+                                    <div class="card-details">
+                                        <span class="difficulty advanced">Advanced</span>
+                                        <span class="question-count" id="pathology-count">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="category-card featured" onclick="startCategoryQuiz('pharmacology')" data-category="pharmacology">
+                                <div class="card-badge">New</div>
+                                <div class="card-icon pharmacology">
                                     <i class="fas fa-pills"></i>
                                 </div>
-                                <h4>Pharmacology</h4>
-                                <p>Drug action and therapeutic effects</p>
-                                <span class="question-count">50 questions</span>
+                                <div class="card-content">
+                                    <h4>Pharmacology</h4>
+                                    <p>Drug mechanisms, pharmacokinetics, and therapeutic effects</p>
+                                    <div class="card-details">
+                                        <span class="difficulty expert">Expert</span>
+                                        <span class="question-count" id="pharmacology-count">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="category-card" onclick="startQuiz('immunology')">
-                                <div class="card-icon">
-                                    <i class="fas fa-shield-virus"></i>
+                            <div class="category-card" onclick="startCategoryQuiz('immunology')" data-category="immunology">
+                                <div class="card-icon immunology">
+                                    <i class="fas fa-shield-alt"></i>
                                 </div>
-                                <h4>Immunology</h4>
-                                <p>Immune system and responses</p>
-                                <span class="question-count">50 questions</span>
+                                <div class="card-content">
+                                    <h4>Immunology</h4>
+                                    <p>Immune system, immunity, and immunological disorders</p>
+                                    <div class="card-details">
+                                        <span class="difficulty advanced">Advanced</span>
+                                        <span class="question-count" id="immunology-count">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="category-card" onclick="startQuiz('biomaterials')">
-                                <div class="card-icon">
-                                    <i class="fas fa-cube"></i>
+                            <div class="category-card" onclick="startCategoryQuiz('microbiology')" data-category="microbiology">
+                                <div class="card-icon microbiology">
+                                    <i class="fas fa-bacteria"></i>
                                 </div>
-                                <h4>Biomaterials</h4>
-                                <p>Materials for medical applications</p>
-                                <span class="question-count">50 questions</span>
-                            </div>
-                            
-                            <div class="category-card" onclick="startQuiz('tissueengineering')">
-                                <div class="card-icon">
-                                    <i class="fas fa-layer-group"></i>
+                                <div class="card-content">
+                                    <h4>Microbiology</h4>
+                                    <p>Microorganisms, infectious diseases, and antimicrobials</p>
+                                    <div class="card-details">
+                                        <span class="difficulty intermediate">Intermediate</span>
+                                        <span class="question-count" id="microbiology-count">Loading...</span>
+                                    </div>
                                 </div>
-                                <h4>Tissue Engineering</h4>
-                                <p>Creating artificial tissues and organs</p>
-                                <span class="question-count">50 questions</span>
                             </div>
-                            
-                            <div class="category-card" onclick="startQuiz('biomechanics')">
-                                <div class="card-icon">
-                                    <i class="fas fa-cog"></i>
+                        </div>
+                    </div>
+
+                    <!-- Research & Methods -->
+                    <div class="category-group" data-group="research">
+                        <div class="group-header">
+                            <h3 class="group-title"><i class="fas fa-flask"></i> Research & Methods</h3>
+                            <p class="group-description">Research methodologies, statistics, and analytical techniques</p>
+                        </div>
+                        <div class="category-cards">
+                            <div class="category-card" onclick="startCategoryQuiz('biostatistics')" data-category="biostatistics">
+                                <div class="card-icon biostatistics">
+                                    <i class="fas fa-chart-bar"></i>
                                 </div>
-                                <h4>Biomechanics</h4>
-                                <p>Mechanics of biological systems</p>
-                                <span class="question-count">50 questions</span>
-                            </div>
-                            
-                            <div class="category-card" onclick="startQuiz('bioinformatics')">
-                                <div class="card-icon">
-                                    <i class="fas fa-code"></i>
+                                <div class="card-content">
+                                    <h4>Biostatistics</h4>
+                                    <p>Statistical methods for biological and health data analysis</p>
+                                    <div class="card-details">
+                                        <span class="difficulty intermediate">Intermediate</span>
+                                        <span class="question-count" id="biostatistics-count">Loading...</span>
+                                    </div>
                                 </div>
-                                <h4>Bioinformatics</h4>
-                                <p>Computational analysis of biological data</p>
-                                <span class="question-count">50 questions</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Start Section -->
+                <div class="quick-start-section">
+                    <div class="quick-start-content">
+                        <h3><i class="fas fa-rocket"></i> Quick Start Options</h3>
+                        <div class="quick-options">
+                            <button class="quick-btn" onclick="startRandomQuiz()">
+                                <i class="fas fa-random"></i>
+                                <span>Random Quiz</span>
+                                <small>Mixed questions from all categories</small>
+                            </button>
+                            <button class="quick-btn" onclick="startPersonalizedQuiz()">
+                                <i class="fas fa-user-cog"></i>
+                                <span>Personalized</span>
+                                <small>Based on your performance</small>
+                            </button>
+                            <button class="quick-btn" onclick="startChallengeMode()">
+                                <i class="fas fa-trophy"></i>
+                                <span>Challenge Mode</span>
+                                <small>Timed expert-level questions</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section community-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Community Hub</h2>
+                    <p>Connect, share knowledge, and learn together with fellow biomedical students</p>
+                </div>
+                
+                <div class="community-tabs">
+                    <button class="community-tab active" onclick="showCommunityTab('discussions')">Discussions</button>
+                    <button class="community-tab" onclick="showCommunityTab('sources')">Study Sources</button>
+                    <button class="community-tab" onclick="showCommunityTab('recommendations')">Recommendations</button>
+                </div>
+                
+                <!-- Discussions Tab -->
+                <div class="community-content active" id="discussions-content">
+                    <div class="discussion-header">
+                        <h3><i class="fas fa-comments"></i> Discussion Forums</h3>
+                        <button class="community-btn primary" onclick="showNewDiscussionModal()" id="new-discussion-btn" style="display: none;">
+                            <i class="fas fa-plus"></i> New Discussion
+                        </button>
+                    </div>
+                    
+                    <div class="discussion-categories">
+                        <div class="category-filters">
+                            <button class="filter-btn active" data-category="all">All Topics</button>
+                            <button class="filter-btn" data-category="anatomy">Anatomy</button>
+                            <button class="filter-btn" data-category="biochemistry">Biochemistry</button>
+                            <button class="filter-btn" data-category="cell-biology">Cell Biology</button>
+                            <button class="filter-btn" data-category="genetics">Genetics</button>
+                            <button class="filter-btn" data-category="general">General</button>
+                        </div>
+                    </div>
+                    
+                    <div class="discussions-grid" id="discussions-grid">
+                        <!-- Discussion posts will be loaded here -->
+                    </div>
+                    
+                    <div class="login-prompt" id="discussions-login-prompt">
+                        <div class="prompt-content">
+                            <i class="fas fa-comments"></i>
+                            <h3>Join the Discussion</h3>
+                            <p>Login to participate in community discussions and share knowledge with fellow students.</p>
+                            <button class="community-btn primary" onclick="showLogin()">Login to Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Study Sources Tab -->
+                <div class="community-content" id="sources-content">
+                    <div class="sources-header">
+                        <h3><i class="fas fa-book"></i> Study Sources</h3>
+                        <button class="community-btn primary" onclick="showAddSourceModal()" id="add-source-btn" style="display: none;">
+                            <i class="fas fa-plus"></i> Add Source
+                        </button>
+                    </div>
+                    
+                    <div class="sources-filters">
+                        <select id="source-category-filter" onchange="filterSources()">
+                            <option value="all">All Categories</option>
+                            <option value="anatomy">Anatomy & Physiology</option>
+                            <option value="biochemistry">Biochemistry</option>
+                            <option value="cell-biology">Cell Biology</option>
+                            <option value="genetics">Genetics</option>
+                            <option value="microbiology">Microbiology</option>
+                            <option value="pharmacology">Pharmacology</option>
+                        </select>
+                        <select id="source-type-filter" onchange="filterSources()">
+                            <option value="all">All Types</option>
+                            <option value="textbook">Textbooks</option>
+                            <option value="video">Videos</option>
+                            <option value="article">Articles</option>
+                            <option value="website">Websites</option>
+                            <option value="course">Online Courses</option>
+                        </select>
+                    </div>
+                    
+                    <div class="sources-grid" id="sources-grid">
+                        <!-- Study sources will be loaded here -->
+                    </div>
+                    
+                    <div class="login-prompt" id="sources-login-prompt">
+                        <div class="prompt-content">
+                            <i class="fas fa-book"></i>
+                            <h3>Access Study Sources</h3>
+                            <p>Login to view and contribute to our curated collection of study materials.</p>
+                            <button class="community-btn primary" onclick="showLogin()">Login to Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recommendations Tab -->
+                <div class="community-content" id="recommendations-content">
+                    <div class="recommendations-header">
+                        <h3><i class="fas fa-star"></i> Study Recommendations</h3>
+                        <div class="recommendation-stats">
+                            <div class="recommendation-stat">
+                                <div class="stat-value" id="totalQuizzesStat">0</div>
+                                <div class="stat-label">Quizzes Taken</div>
+                            </div>
+                            <div class="recommendation-stat">
+                                <div class="stat-value" id="avgScoreStat">0%</div>
+                                <div class="stat-label">Average Score</div>
+                            </div>
+                            <div class="recommendation-stat">
+                                <div class="stat-value" id="discussionsStat">0</div>
+                                <div class="stat-label">Discussions</div>
+                            </div>
+                            <div class="recommendation-stat">
+                                <div class="stat-value" id="sourcesStat">0</div>
+                                <div class="stat-label">Sources Added</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendations-categories">
+                        <div class="recommendation-section">
+                            <h4><i class="fas fa-user-chart"></i> Personalized for You</h4>
+                            <div class="recommendation-cards" id="personalizedRecommendations">
+                                <!-- Personalized recommendations based on quiz performance -->
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-section">
+                            <h4><i class="fas fa-book-open"></i> Study by Category</h4>
+                            <div class="recommendation-cards" id="categoryRecommendations">
+                                <!-- Category-based study recommendations -->
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-section">
+                            <h4><i class="fas fa-calendar-alt"></i> Study Plans</h4>
+                            <div class="recommendation-cards" id="studyPlanRecommendations">
+                                <!-- Study plan recommendations -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="login-prompt" id="recommendations-login-prompt">
+                        <div class="prompt-content">
+                            <i class="fas fa-star"></i>
+                            <h3>Get Personalized Recommendations</h3>
+                            <p>Login to receive tailored study recommendations based on your progress and interests.</p>
+                            <button class="community-btn primary" onclick="showLogin()">Login to Continue</button>
                         </div>
                     </div>
                 </div>
@@ -841,6 +1206,162 @@
         </div>
     </div>
 
+    <!-- New Discussion Modal -->
+    <div class="modal-overlay" id="discussion-modal-overlay" style="display: none;">
+        <div class="modal community-modal">
+            <div class="modal-header">
+                <h3>Start New Discussion</h3>
+                <button class="modal-close" onclick="closeDiscussionModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="discussion-form" onsubmit="saveDiscussion(event)">
+                    <div class="form-group">
+                        <label for="discussion-title">Discussion Title</label>
+                        <input type="text" id="discussion-title" required placeholder="What would you like to discuss?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="discussion-category">Category</label>
+                        <select id="discussion-category" required>
+                            <option value="general">General Discussion</option>
+                            <option value="anatomy">Anatomy & Physiology</option>
+                            <option value="biochemistry">Biochemistry</option>
+                            <option value="cell-biology">Cell Biology</option>
+                            <option value="genetics">Genetics</option>
+                            <option value="microbiology">Microbiology</option>
+                            <option value="pharmacology">Pharmacology</option>
+                            <option value="immunology">Immunology</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="discussion-content">Your Question or Topic</label>
+                        <textarea id="discussion-content" rows="6" required placeholder="Share your thoughts, ask questions, or start a discussion..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="discussion-urgent"> Mark as urgent/important
+                        </label>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="modal-btn secondary" onclick="closeDiscussionModal()">Cancel</button>
+                        <button type="submit" class="modal-btn primary">Post Discussion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Source Modal -->
+    <div class="modal-overlay" id="source-modal-overlay" style="display: none;">
+        <div class="modal community-modal">
+            <div class="modal-header">
+                <h3>Add Study Source</h3>
+                <button class="modal-close" onclick="closeSourceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="source-form" onsubmit="saveSource(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="source-title">Source Title</label>
+                            <input type="text" id="source-title" required placeholder="Name of the resource">
+                        </div>
+                        <div class="form-group">
+                            <label for="source-type">Source Type</label>
+                            <select id="source-type" required>
+                                <option value="textbook">Textbook</option>
+                                <option value="video">Video</option>
+                                <option value="article">Article</option>
+                                <option value="website">Website</option>
+                                <option value="course">Online Course</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="source-category">Category</label>
+                            <select id="source-category" required>
+                                <option value="anatomy">Anatomy & Physiology</option>
+                                <option value="biochemistry">Biochemistry</option>
+                                <option value="cell-biology">Cell Biology</option>
+                                <option value="genetics">Genetics</option>
+                                <option value="microbiology">Microbiology</option>
+                                <option value="pharmacology">Pharmacology</option>
+                                <option value="immunology">Immunology</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="source-difficulty">Difficulty Level</label>
+                            <select id="source-difficulty" required>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="source-url">URL or Reference</label>
+                        <input type="url" id="source-url" placeholder="https://example.com (optional for textbooks)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="source-description">Description</label>
+                        <textarea id="source-description" rows="4" required placeholder="Brief description of the resource and why it's helpful..."></textarea>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="modal-btn secondary" onclick="closeSourceModal()">Cancel</button>
+                        <button type="submit" class="modal-btn primary">Add Source</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discussion Details Modal -->
+    <div class="modal-overlay" id="discussion-details-modal-overlay" style="display: none;">
+        <div class="modal discussion-details-modal">
+            <div class="modal-header">
+                <h3 id="discussion-details-title">Discussion Title</h3>
+                <button class="modal-close" onclick="closeDiscussionDetailsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="discussion-meta" id="discussion-details-meta">
+                    <!-- Discussion metadata -->
+                </div>
+                <div class="discussion-content" id="discussion-details-content">
+                    <!-- Discussion content -->
+                </div>
+                <div class="discussion-replies" id="discussion-replies">
+                    <!-- Replies will be loaded here -->
+                </div>
+                <div class="reply-form" id="reply-form" style="display: none;">
+                    <textarea id="reply-content" rows="3" placeholder="Add your reply..."></textarea>
+                    <div class="reply-actions">
+                        <button class="community-btn secondary" onclick="cancelReply()">Cancel</button>
+                        <button class="community-btn primary" onclick="submitReply()">Post Reply</button>
+                    </div>
+                </div>
+                <div class="discussion-actions">
+                    <button class="community-btn primary" onclick="showReplyForm()" id="reply-btn">Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <p>&copy; 2024 BioQuiz Hub. Enhancing biomedical education through interactive learning.</p>
@@ -850,5 +1371,6 @@
     <script src="script.js"></script>
     <script src="user-management.js"></script>
     <script src="admin.js"></script>
+    <script src="community.js"></script>
 </body>
 </html>

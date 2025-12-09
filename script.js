@@ -1099,3 +1099,323 @@ function preloadResources() {
 
 // Call preload function
 document.addEventListener('DOMContentLoaded', preloadResources);
+
+// Featured Quizzes Management for Home Page
+function loadFeaturedQuizzes() {
+    const featuredContainer = document.getElementById('featuredQuizzesGrid');
+    if (!featuredContainer) return;
+    
+    // Define featured categories with enhanced descriptions
+    const featuredCategories = [
+        {
+            name: 'Cell Biology',
+            icon: 'fas fa-microscope',
+            color: '#3b82f6',
+            description: 'Explore cellular structures, organelles, and fundamental processes that govern life at the microscopic level.',
+            questionCount: getQuestionCount('Cell Biology'),
+            difficulty: 'Intermediate',
+            popularity: 95
+        },
+        {
+            name: 'Biochemistry',
+            icon: 'fas fa-flask',
+            color: '#10b981',
+            description: 'Master molecular interactions, metabolic pathways, and chemical processes within living organisms.',
+            questionCount: getQuestionCount('Biochemistry'),
+            difficulty: 'Advanced',
+            popularity: 89
+        },
+        {
+            name: 'Genetics',
+            icon: 'fas fa-dna',
+            color: '#8b5cf6',
+            description: 'Understand heredity, gene expression, and genetic variations that shape biological diversity.',
+            questionCount: getQuestionCount('Genetics'),
+            difficulty: 'Intermediate',
+            popularity: 92
+        },
+        {
+            name: 'Physiology',
+            icon: 'fas fa-heartbeat',
+            color: '#ef4444',
+            description: 'Study organ systems, homeostasis, and physiological mechanisms that maintain life.',
+            questionCount: getQuestionCount('Physiology'),
+            difficulty: 'Advanced',
+            popularity: 87
+        },
+        {
+            name: 'Immunology',
+            icon: 'fas fa-shield-alt',
+            color: '#f59e0b',
+            description: 'Discover immune responses, defense mechanisms, and protection against pathogens.',
+            questionCount: getQuestionCount('Immunology'),
+            difficulty: 'Advanced',
+            popularity: 84
+        },
+        {
+            name: 'Pharmacology',
+            icon: 'fas fa-pills',
+            color: '#06b6d4',
+            description: 'Learn drug mechanisms, therapeutic effects, and pharmaceutical interventions.',
+            questionCount: getQuestionCount('Pharmacology'),
+            difficulty: 'Expert',
+            popularity: 78
+        }
+    ];
+    
+    // Sort by popularity and take top 6
+    const topFeatured = featuredCategories.sort((a, b) => b.popularity - a.popularity).slice(0, 6);
+    
+    featuredContainer.innerHTML = topFeatured.map(category => `
+        <div class="featured-quiz-card" 
+             style="border-left-color: ${category.color}"
+             onclick="startFeaturedQuiz('${category.name}')"
+             data-category="${category.name}">
+            <div class="quiz-card-header">
+                <div class="quiz-category-icon" style="background: ${category.color}">
+                    <i class="${category.icon}"></i>
+                </div>
+                <div>
+                    <div class="quiz-card-title">${category.name}</div>
+                    <div class="quiz-difficulty" style="color: ${category.color}; font-weight: 600; font-size: 0.9rem;">
+                        ${category.difficulty} Level
+                    </div>
+                </div>
+            </div>
+            <div class="quiz-card-description">
+                ${category.description}
+            </div>
+            <div class="quiz-card-stats">
+                <div class="quiz-stat">
+                    <i class="fas fa-question-circle"></i>
+                    <span>${category.questionCount} Questions</span>
+                </div>
+                <div class="quiz-stat">
+                    <i class="fas fa-fire"></i>
+                    <span>${category.popularity}% Popular</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getQuestionCount(category) {
+    // Map display names to database keys
+    const categoryMap = {
+        'Cell Biology': 'cellbiology',
+        'Biochemistry': 'biochemistry',
+        'Genetics': 'genetics',
+        'Molecular Biology': 'molecularbiology',
+        'Physiology': 'physiology',
+        'Immunology': 'immunology',
+        'Pharmacology': 'pharmacology',
+        'Pathology': 'pathology',
+        'Microbiology': 'microbiology',
+        'Anatomy': 'anatomy',
+        'Biostatistics': 'biostatistics'
+    };
+    
+    const dbKey = categoryMap[category] || category.toLowerCase();
+    return questionDatabase[dbKey] ? questionDatabase[dbKey].length : 0;
+}
+
+function startFeaturedQuiz(categoryName) {
+    // Map display name to category key for the quiz system
+    const categoryMap = {
+        'Cell Biology': 'cellbiology',
+        'Biochemistry': 'biochemistry',
+        'Genetics': 'genetics',
+        'Molecular Biology': 'molecularbiology',
+        'Physiology': 'physiology',
+        'Immunology': 'immunology',
+        'Pharmacology': 'pharmacology',
+        'Pathology': 'pathology',
+        'Microbiology': 'microbiology',
+        'Anatomy': 'anatomy',
+        'Biostatistics': 'biostatistics'
+    };
+    
+    const categoryKey = categoryMap[categoryName] || categoryName.toLowerCase();
+    
+    // Start the quiz
+    startCategoryQuiz(categoryKey);
+}
+
+// Enhanced stats loading for home page
+function loadHomeStats() {
+    // Update total questions count
+    const totalQuestions = Object.values(questionDatabase).reduce((total, questions) => total + questions.length, 0);
+    const totalQuestionsElement = document.getElementById('totalQuestionsCount');
+    if (totalQuestionsElement) {
+        totalQuestionsElement.textContent = totalQuestions + '+';
+    }
+    
+    // Update categories count
+    const totalCategoriesElement = document.getElementById('totalCategoriesCount');
+    if (totalCategoriesElement) {
+        totalCategoriesElement.textContent = Object.keys(questionDatabase).length;
+    }
+    
+    // Update user and session counts
+    const totalUsersElement = document.getElementById('totalUsersCount');
+    if (totalUsersElement) {
+        // Get actual registered users count
+        const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+        const userCount = Object.keys(users).length;
+        totalUsersElement.textContent = userCount > 0 ? userCount.toLocaleString() : '1,234';
+    }
+    
+    const totalSessionsElement = document.getElementById('totalSessionsCount');
+    if (totalSessionsElement) {
+        // Calculate total sessions from all users
+        let totalSessions = 0;
+        const users = JSON.parse(localStorage.getItem('registeredUsers')) || {};
+        Object.keys(users).forEach(username => {
+            const userSessions = JSON.parse(localStorage.getItem(`${username}_sessions`)) || [];
+            totalSessions += userSessions.length;
+        });
+        totalSessionsElement.textContent = totalSessions > 0 ? totalSessions.toLocaleString() : '5,678';
+    }
+}
+
+// Enhanced navigation function for home page buttons
+function showCategories() {
+    showSection('categories');
+}
+
+// Category filtering functionality
+function filterCategories(filter) {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const categoryGroups = document.querySelectorAll('.category-group');
+    
+    // Update active tab
+    filterTabs.forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.filter === filter) {
+            tab.classList.add('active');
+        }
+    });
+    
+    // Show/hide category groups
+    categoryGroups.forEach(group => {
+        if (filter === 'all' || group.dataset.group === filter) {
+            group.classList.remove('hidden');
+        } else {
+            group.classList.add('hidden');
+        }
+    });
+}
+
+// Update question counts for categories
+function updateCategoryCounts() {
+    const categoryMap = {
+        'anatomy': 'anatomy-count',
+        'physiology': 'physiology-count', 
+        'biochemistry': 'biochemistry-count',
+        'cellbiology': 'cellbiology-count',
+        'genetics': 'genetics-count',
+        'molecularbiology': 'molecularbiology-count',
+        'pathology': 'pathology-count',
+        'pharmacology': 'pharmacology-count',
+        'immunology': 'immunology-count',
+        'microbiology': 'microbiology-count',
+        'biostatistics': 'biostatistics-count'
+    };
+    
+    Object.entries(categoryMap).forEach(([category, elementId]) => {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const count = questionDatabase[category] ? questionDatabase[category].length : 0;
+            element.textContent = `${count} questions`;
+        }
+    });
+}
+
+// Quick start functions
+function startRandomQuiz() {
+    const categories = Object.keys(questionDatabase);
+    if (categories.length === 0) return;
+    
+    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    startCategoryQuiz(randomCategory);
+}
+
+function startPersonalizedQuiz() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please log in to access personalized quizzes based on your performance.');
+        return;
+    }
+    
+    const userSessions = JSON.parse(localStorage.getItem(`${currentUser.username}_sessions`)) || [];
+    
+    if (userSessions.length === 0) {
+        // If no history, start with a foundational category
+        startCategoryQuiz('cellbiology');
+        return;
+    }
+    
+    // Find weakest performing category
+    const categoryScores = {};
+    userSessions.forEach(session => {
+        if (!categoryScores[session.category]) {
+            categoryScores[session.category] = [];
+        }
+        categoryScores[session.category].push(session.score);
+    });
+    
+    let weakestCategory = 'cellbiology';
+    let lowestScore = 100;
+    
+    Object.entries(categoryScores).forEach(([category, scores]) => {
+        const avgScore = scores.reduce((a, b) => a + b) / scores.length;
+        if (avgScore < lowestScore) {
+            lowestScore = avgScore;
+            weakestCategory = category;
+        }
+    });
+    
+    startCategoryQuiz(weakestCategory);
+}
+
+function startChallengeMode() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please log in to access challenge mode.');
+        return;
+    }
+    
+    // Set challenge mode parameters
+    currentQuiz.challengeMode = true;
+    currentQuiz.timeLimit = 15; // 15 seconds per question
+    
+    // Mix questions from multiple categories for challenge
+    const allQuestions = [];
+    Object.values(questionDatabase).forEach(categoryQuestions => {
+        allQuestions.push(...categoryQuestions);
+    });
+    
+    // Select 20 random difficult questions
+    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+    currentQuiz.questions = shuffled.slice(0, 20);
+    currentQuiz.category = 'Challenge Mode';
+    
+    showSection('quiz');
+    startQuizSession();
+}
+
+// Initialize home page features
+document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure other initializations complete first
+    setTimeout(() => {
+        loadFeaturedQuizzes();
+        loadHomeStats();
+        updateCategoryCounts();
+        
+        // Update stats periodically
+        setInterval(() => {
+            loadHomeStats();
+            updateCategoryCounts();
+        }, 30000);
+    }, 100);
+});
