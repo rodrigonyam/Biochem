@@ -18,9 +18,30 @@
             <nav class="nav">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#categories" class="nav-link">Categories</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#stats" class="nav-link">Statistics</a>
+                <a href="#progress" class="nav-link">Progress</a>
+                <a href="#leaderboards" class="nav-link" id="leaderboards-nav" style="display: none;">Leaderboards</a>
+                <a href="#profile" class="nav-link" id="profile-nav" style="display: none;">Profile</a>
             </nav>
+            <div class="user-menu">
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="auth-btn login-btn" onclick="showLogin()">Login</button>
+                    <button class="auth-btn register-btn" onclick="showRegister()">Register</button>
+                </div>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <div class="user-avatar" onclick="toggleUserDropdown()">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="username" id="current-username">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <a href="#profile" onclick="showProfile(); closeUserDropdown();"><i class="fas fa-user"></i> Profile</a>
+                        <a href="#progress" onclick="showProgress(); closeUserDropdown();"><i class="fas fa-chart-line"></i> Progress</a>
+                        <a href="#leaderboards" onclick="showLeaderboards(); closeUserDropdown();"><i class="fas fa-trophy"></i> Leaderboards</a>
+                        <a href="#" onclick="showAccountSettings(); closeUserDropdown();"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" onclick="logout(); closeUserDropdown();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -267,7 +288,454 @@
                 </div>
             </div>
         </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section profile-section">
+            <div class="container">
+                <div class="profile-header">
+                    <h2>User Profile</h2>
+                    <button class="edit-profile-btn" onclick="editProfile()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+                
+                <div class="profile-content">
+                    <div class="profile-card">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar-large">
+                                <i class="fas fa-user-circle" id="profile-avatar"></i>
+                            </div>
+                            <button class="change-avatar-btn" onclick="changeAvatar()">
+                                <i class="fas fa-camera"></i> Change Avatar
+                            </button>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <div class="profile-field">
+                                <label>Full Name</label>
+                                <span id="profile-name">John Doe</span>
+                            </div>
+                            <div class="profile-field">
+                                <label>Email</label>
+                                <span id="profile-email">john@example.com</span>
+                            </div>
+                            <div class="profile-field">
+                                <label>Member Since</label>
+                                <span id="member-since">December 2024</span>
+                            </div>
+                            <div class="profile-field">
+                                <label>Study Level</label>
+                                <span id="study-level">Undergraduate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <h3>Your Statistics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="total-quizzes">0</div>
+                                    <div class="stat-label">Quizzes Completed</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="avg-score">0%</div>
+                                    <div class="stat-label">Average Score</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="total-time">0h</div>
+                                    <div class="stat-label">Study Time</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="best-category">-</div>
+                                    <div class="stat-label">Best Category</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress" class="section progress-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Your Progress</h2>
+                    <p>Track your performance across all biomedical categories</p>
+                </div>
+                
+                <div class="progress-overview">
+                    <div class="progress-card overall">
+                        <h3>Overall Progress</h3>
+                        <div class="circular-progress">
+                            <div class="progress-circle" id="overall-progress-circle">
+                                <span class="progress-percentage" id="overall-percentage">0%</span>
+                            </div>
+                        </div>
+                        <div class="progress-details">
+                            <div class="detail-item">
+                                <span class="label">Categories Mastered:</span>
+                                <span class="value" id="mastered-categories">0/10</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Total Questions Answered:</span>
+                                <span class="value" id="total-answered">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-progress">
+                    <h3>Category Progress</h3>
+                    <div class="category-progress-grid" id="category-progress-grid">
+                        <!-- Category progress cards will be inserted here -->
+                    </div>
+                </div>
+                
+                <div class="recent-sessions">
+                    <h3>Recent Quiz Sessions</h3>
+                    <div class="sessions-list" id="sessions-list">
+                        <!-- Recent sessions will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboards Section -->
+        <section id="leaderboards" class="section leaderboards-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Your Personal Leaderboards</h2>
+                    <p>Your top 5 performances across all biomedical categories</p>
+                </div>
+                
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab active" onclick="showLeaderboardTab('overall')">Overall Top 5</button>
+                    <button class="leaderboard-tab" onclick="showLeaderboardTab('category')">By Category</button>
+                </div>
+                
+                <!-- Overall Top 5 Tab -->
+                <div class="leaderboard-content active" id="overall-leaderboard">
+                    <div class="leaderboard-card">
+                        <div class="leaderboard-header">
+                            <h3><i class="fas fa-trophy"></i> Your Top 5 Quiz Performances</h3>
+                            <div class="leaderboard-filters">
+                                <select id="time-filter" onchange="updateLeaderboards()">
+                                    <option value="all">All Time</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="leaderboard-list" id="overall-top5-list">
+                            <!-- Top 5 sessions will be inserted here -->
+                        </div>
+                        
+                        <div class="achievement-section">
+                            <h4>🎯 Your Achievements</h4>
+                            <div class="achievements-grid" id="achievements-grid">
+                                <!-- Achievement badges will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category Leaderboards Tab -->
+                <div class="leaderboard-content" id="category-leaderboard">
+                    <div class="category-selector">
+                        <label for="category-select">Select Category:</label>
+                        <select id="category-select" onchange="updateCategoryLeaderboard()">
+                            <option value="anatomy">Anatomy & Physiology</option>
+                            <option value="biochemistry">Biochemistry</option>
+                            <option value="cellbiology">Cell Biology</option>
+                            <option value="genetics">Genetics</option>
+                            <option value="microbiology">Microbiology</option>
+                            <option value="pharmacology">Pharmacology</option>
+                            <option value="immunology">Immunology</option>
+                            <option value="biomaterials">Biomaterials</option>
+                            <option value="tissueengineering">Tissue Engineering</option>
+                            <option value="biomechanics">Biomechanics</option>
+                            <option value="bioinformatics">Bioinformatics</option>
+                        </select>
+                    </div>
+                    
+                    <div class="leaderboard-card">
+                        <div class="leaderboard-header">
+                            <h3 id="category-leaderboard-title">Anatomy & Physiology - Top 5</h3>
+                            <div class="category-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Best Score:</span>
+                                    <span class="stat-value" id="category-best-score">0%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Average:</span>
+                                    <span class="stat-value" id="category-avg-score">0%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Attempts:</span>
+                                    <span class="stat-value" id="category-attempts">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="leaderboard-list" id="category-top5-list">
+                            <!-- Category top 5 sessions will be inserted here -->
+                        </div>
+                        
+                        <div class="improvement-chart">
+                            <h4>📈 Performance Trend</h4>
+                            <div class="trend-visualization" id="trend-chart">
+                                <!-- Simple trend visualization will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="personal-records">
+                    <h3>🏆 Personal Records</h3>
+                    <div class="records-grid">
+                        <div class="record-card">
+                            <div class="record-icon"><i class="fas fa-bullseye"></i></div>
+                            <div class="record-info">
+                                <div class="record-title">Highest Score</div>
+                                <div class="record-value" id="highest-score">0%</div>
+                                <div class="record-detail" id="highest-score-detail">No quizzes yet</div>
+                            </div>
+                        </div>
+                        
+                        <div class="record-card">
+                            <div class="record-icon"><i class="fas fa-fire"></i></div>
+                            <div class="record-info">
+                                <div class="record-title">Best Streak</div>
+                                <div class="record-value" id="best-streak">0</div>
+                                <div class="record-detail" id="best-streak-detail">Consecutive correct answers</div>
+                            </div>
+                        </div>
+                        
+                        <div class="record-card">
+                            <div class="record-icon"><i class="fas fa-clock"></i></div>
+                            <div class="record-info">
+                                <div class="record-title">Fastest Perfect</div>
+                                <div class="record-value" id="fastest-perfect">--</div>
+                                <div class="record-detail" id="fastest-perfect-detail">Time for 100% score</div>
+                            </div>
+                        </div>
+                        
+                        <div class="record-card">
+                            <div class="record-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="record-info">
+                                <div class="record-title">Most Improved</div>
+                                <div class="record-value" id="most-improved">--</div>
+                                <div class="record-detail" id="most-improved-detail">Category with highest growth</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Authentication Modals -->
+    <div class="modal-overlay" id="modal-overlay">
+        <!-- Login Modal -->
+        <div class="modal" id="login-modal">
+            <div class="modal-header">
+                <h3>Login to BioQuiz Hub</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="remember-me">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="modal-btn primary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <div class="modal-footer">
+                    <p>Don't have an account? <a href="#" onclick="showRegister()">Sign up here</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal" id="register-modal">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="register-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="study-level-select">Study Level</label>
+                        <select id="study-level-select" required>
+                            <option value="">Select your level</option>
+                            <option value="high-school">High School</option>
+                            <option value="undergraduate">Undergraduate</option>
+                            <option value="graduate">Graduate</option>
+                            <option value="professional">Healthcare Professional</option>
+                        </select>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="terms-agreement" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" onclick="showTerms()">Terms of Service</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="modal-btn primary">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                <div class="modal-footer">
+                    <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Settings Modal -->
+        <div class="modal" id="settings-modal">
+            <div class="modal-header">
+                <h3>Account Settings</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="settings-tabs">
+                    <button class="tab-btn active" onclick="switchTab('profile-tab')">Profile</button>
+                    <button class="tab-btn" onclick="switchTab('security-tab')">Security</button>
+                    <button class="tab-btn" onclick="switchTab('preferences-tab')">Preferences</button>
+                </div>
+                
+                <div class="tab-content active" id="profile-tab">
+                    <form id="profile-form" onsubmit="updateProfile(event)">
+                        <div class="form-group">
+                            <label for="edit-name">Full Name</label>
+                            <input type="text" id="edit-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-email">Email</label>
+                            <input type="email" id="edit-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-study-level">Study Level</label>
+                            <select id="edit-study-level">
+                                <option value="high-school">High School</option>
+                                <option value="undergraduate">Undergraduate</option>
+                                <option value="graduate">Graduate</option>
+                                <option value="professional">Healthcare Professional</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="modal-btn primary">Save Changes</button>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="security-tab">
+                    <form id="password-form" onsubmit="changePassword(event)">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-new-password">Confirm New Password</label>
+                            <input type="password" id="confirm-new-password" required>
+                        </div>
+                        <button type="submit" class="modal-btn primary">Change Password</button>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="preferences-tab">
+                    <form id="preferences-form" onsubmit="updatePreferences(event)">
+                        <div class="preference-group">
+                            <h4>Quiz Settings</h4>
+                            <div class="form-group">
+                                <label for="default-questions">Default Questions per Quiz</label>
+                                <select id="default-questions">
+                                    <option value="5">5 Questions</option>
+                                    <option value="10" selected>10 Questions</option>
+                                    <option value="15">15 Questions</option>
+                                    <option value="20">20 Questions</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="timer-duration">Timer per Question</label>
+                                <select id="timer-duration">
+                                    <option value="15">15 seconds</option>
+                                    <option value="30" selected>30 seconds</option>
+                                    <option value="60">1 minute</option>
+                                    <option value="0">No timer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="preference-group">
+                            <h4>Notifications</h4>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <span class="checkmark"></span>
+                                Email notifications for progress updates
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="reminder-notifications" checked>
+                                <span class="checkmark"></span>
+                                Daily study reminders
+                            </label>
+                        </div>
+                        <button type="submit" class="modal-btn primary">Save Preferences</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -276,5 +744,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="user-management.js"></script>
 </body>
 </html>
