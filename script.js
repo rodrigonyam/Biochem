@@ -51,6 +51,19 @@ const questionDatabase = {
                     options: ["206", "215", "225", "235"],
                     correct: 0,
                     explanation: "The adult human body has 206 bones, reduced from about 270 at birth due to fusion during development."
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Which bone forms the forehead?",
+                    options: ["Parietal bone", "Temporal bone", "Frontal bone", "Sphenoid bone"],
+                    correct: 2,
+                    explanation: "The frontal bone forms the forehead and the upper part of the eye sockets."
+                },
+                {
+                    type: "true-false",
+                    question: "The patella is commonly known as the kneecap.",
+                    correct: true,
+                    explanation: "True. The patella is the triangular bone at the front of the knee, commonly called the kneecap."
                 }
             ],
             "Muscular System": [
