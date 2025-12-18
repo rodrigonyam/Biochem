@@ -146,6 +146,19 @@ const questionDatabase = {
                     question: "Arteries always carry oxygenated blood.",
                     correct: false,
                     explanation: "False. The pulmonary artery carries deoxygenated blood from the heart to the lungs."
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Which valve prevents blood from flowing back into the left ventricle?",
+                    options: ["Tricuspid valve", "Aortic valve", "Pulmonary valve", "Mitral valve"],
+                    correct: 1,
+                    explanation: "The aortic valve prevents backflow of blood from the aorta into the left ventricle."
+                },
+                {
+                    type: "short-answer",
+                    question: "What is the largest artery in the human body?",
+                    correctAnswers: ["aorta", "the aorta"],
+                    explanation: "The aorta is the largest artery, carrying oxygenated blood from the left ventricle to the body."
                 }
             ],
             "Respiratory System": [
