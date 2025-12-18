@@ -99,6 +99,19 @@ const questionDatabase = {
                     options: ["Actin", "Myosin", "Collagen", "Troponin", "Elastin"],
                     correct: [0, 1, 3],
                     explanation: "Actin, myosin, and troponin are key proteins in the muscle contraction mechanism."
+                },
+                {
+                    type: "short-answer",
+                    question: "What is the name of the muscle that allows you to shrug your shoulders?",
+                    correctAnswers: ["trapezius", "the trapezius", "trapezius muscle"],
+                    explanation: "The trapezius muscle extends across the back of the neck and shoulders and allows shoulder elevation (shrugging)."
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Which muscle is responsible for extending the knee?",
+                    options: ["Hamstring", "Quadriceps", "Gastrocnemius", "Tibialis anterior"],
+                    correct: 1,
+                    explanation: "The quadriceps femoris is the large muscle group at the front of the thigh that extends (straightens) the knee."
                 }
             ],
             "Cardiovascular System": [
@@ -2035,6 +2048,18 @@ const questionDatabase = {
             options: ["Protein structure", "Evolutionary relationships", "Gene expression", "Metabolic pathways"],
             correct: 1,
             explanation: "Phylogenetic analysis studies evolutionary relationships between species or genes."
+        },
+        {
+            question: "What is a multiple sequence alignment (MSA)?",
+            options: ["Alignment of one sequence to a database", "Alignment of three or more sequences", "Alignment of two sequences only", "Alignment of protein structures"],
+            correct: 1,
+            explanation: "Multiple sequence alignment (MSA) is the alignment of three or more sequences to identify conserved regions and evolutionary relationships."
+        },
+        {
+            question: "Which programming language is most commonly used in bioinformatics?",
+            options: ["Java", "C++", "Python", "JavaScript"],
+            correct: 2,
+            explanation: "Python is widely used in bioinformatics due to its simplicity and extensive libraries for biological data analysis."
         }
     ]
 };
