@@ -194,6 +194,19 @@ const questionDatabase = {
                     options: ["16%", "18%", "21%", "25%"],
                     correct: 2,
                     explanation: "Air contains approximately 21% oxygen, 78% nitrogen, and 1% other gases."
+                },
+                {
+                    type: "true-false",
+                    question: "The epiglottis prevents food from entering the trachea.",
+                    correct: true,
+                    explanation: "True. The epiglottis acts as a protective flap that covers the trachea during swallowing."
+                },
+                {
+                    type: "multiple-choice",
+                    question: "What is the normal respiratory rate for a resting adult?",
+                    options: ["8-10 breaths/min", "12-20 breaths/min", "25-30 breaths/min", "35-40 breaths/min"],
+                    correct: 1,
+                    explanation: "Normal respiratory rate for adults at rest is 12-20 breaths per minute."
                 }
             ],
             "Urinary System": [
@@ -2073,6 +2086,18 @@ const questionDatabase = {
             options: ["Java", "C++", "Python", "JavaScript"],
             correct: 2,
             explanation: "Python is widely used in bioinformatics due to its simplicity and extensive libraries for biological data analysis."
+        },
+        {
+            question: "What is genome annotation?",
+            options: ["Sequencing DNA", "Identifying genes and functional elements", "Assembling genomes", "Comparing sequences"],
+            correct: 1,
+            explanation: "Genome annotation is the process of identifying and labeling genes and other functional elements in a genome sequence."
+        },
+        {
+            question: "What does NGS stand for in bioinformatics?",
+            options: ["Next Generation Sequencing", "New Gene Sequencing", "Nucleotide Gene Scanning", "New Genomic Standards"],
+            correct: 0,
+            explanation: "NGS stands for Next Generation Sequencing, which refers to high-throughput DNA sequencing technologies."
         }
     ]
 };
