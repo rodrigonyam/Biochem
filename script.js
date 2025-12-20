@@ -2128,38 +2128,9 @@ function updateNavigation(activeSection) {
         }
     });
 }
-                {
-                    type: "multiple-choice",
-                    question: "Which type of muscle is found in the heart?",
-                    options: ["Skeletal muscle", "Smooth muscle", "Cardiac muscle", "Striated muscle"],
-                    correct: 2,
-                    explanation: "Cardiac muscle is the specialized muscle type found only in the heart."
-                },
-                {
-                    type: "true-false",
-                    question: "Smooth muscle is under voluntary control.",
-                    correct: false,
-                    explanation: "False. Smooth muscle is involuntary and controlled by the autonomic nervous system."
-                },
-                {
-                    type: "multiple-choice",
-                    question: "What is the largest muscle in the human body?",
-                    options: ["Biceps", "Quadriceps", "Gluteus maximus", "Latissimus dorsi"],
-                    correct: 2,
-                    explanation: "The gluteus maximus is the largest muscle in the human body."
-                },
-                {
-                    type: "multiple-select",
-                    question: "Which proteins are involved in muscle contraction? (Select all that apply)",
-                    options: ["Actin", "Myosin", "Collagen", "Troponin", "Elastin"],
-                    correct: [0, 1, 3],
-                    explanation: "Actin, myosin, and troponin are key proteins in the muscle contraction mechanism."
-                }
-            ],
-            "Cardiovascular System": [
-                {
-                    type: "true-false",
-                    question: "The heart has four chambers.",
+
+// Question Generation and Quiz Management Functions
+function generateQuestions(category, topic = null, count = 10) {
                     correct: true,
                     explanation: "True. The human heart has four chambers: two atria (left and right) and two ventricles (left and right)."
                 },
