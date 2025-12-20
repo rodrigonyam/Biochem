@@ -2104,26 +2104,30 @@ const questionDatabase = {
 
 // Utility Functions
 function showSection(sectionId) {
-                    type: "short-answer",
-                    question: "What is the smallest bone in the human body?",
-                    correctAnswers: ["stapes", "the stapes", "stirrup", "the stirrup"],
-                    explanation: "The stapes (stirrup bone) in the middle ear is the smallest bone in the human body."
-                },
-                {
-                    type: "multiple-choice",
-                    question: "How many bones are in the adult human body?",
-                    options: ["206", "215", "225", "235"],
-                    correct: 0,
-                    explanation: "The adult human body has 206 bones, reduced from about 270 at birth due to fusion during development."
-                }
-            ],
-            "Muscular System": [
-                {
-                    type: "short-answer",
-                    question: "What is the primary muscle responsible for breathing?",
-                    correctAnswers: ["diaphragm", "the diaphragm"],
-                    explanation: "The diaphragm is the primary muscle of respiration, contracting to create negative pressure for inhalation."
-                },
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show target section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        targetSection.classList.add('fade-in');
+    }
+    
+    // Update navigation
+    updateNavigation(sectionId);
+}
+
+function updateNavigation(activeSection) {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${activeSection}`) {
+            link.classList.add('active');
+        }
+    });
+}
                 {
                     type: "multiple-choice",
                     question: "Which type of muscle is found in the heart?",
